@@ -10,7 +10,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text style={typography.h0}>Edit app/index.tsx to edit this screen.</Text>
+      <Text style={typography.h0}>This is the main part of the app.</Text>
     </View>
   );
 }
