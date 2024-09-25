@@ -39,6 +39,12 @@
             "newArchEnabled": true
           }
         }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts": ["./assets/fonts/Sora-Bold.ttf", "./assets/fonts/Sora-Regular.ttf", "./assets/fonts/Sora-SemiBold.ttf", "./assets/fonts/Sora-Medium.ttf", "./assets/fonts/Sora-Light.ttf", "./assets/fonts/Sora-ExtraLight.ttf", "./assets/fonts/Sora-ExtraBold.ttf", "./assets/fonts/Sora-Thin.ttf"]
+        }
       ]
     ],
     "experiments": {
