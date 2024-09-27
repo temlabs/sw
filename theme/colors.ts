@@ -12,7 +12,7 @@ export const colors = {
   primary: "#de4035",
   secondary: "#000000",
   text: {
-    primary: white_100,
+    primary: white_0,
     secondary: white_100,
     disabled: white_200,
   },
@@ -21,8 +21,8 @@ export const colors = {
     secondary: black_100,
   },
   button: {
-    primary: black_400,
-    secondary: "#000000",
+    primary: white_0,
+    secondary: "#f0bebb",
   },
   neutral: {
     100: "#000000",

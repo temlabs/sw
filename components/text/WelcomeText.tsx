@@ -4,10 +4,10 @@ import React from "react";
 import { Text } from "react-native";
 
 const copy = [
-  "Hurry,\nthere are\nworlds\nthat need exploring",
-  "We've been waiting for you",
+  "Hurry,\nthere are\nworlds\nto explore",
+  "We've\nbeen waiting for you",
   "A world of wonder awaits",
-  "Welcome\nto the beginning",
+  "It's\nonly\njust\nbeginning",
   "What took you so long?",
   "We\nare SO\nglad you made it",
 ];

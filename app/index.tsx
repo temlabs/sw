@@ -1,5 +1,6 @@
 import { WelcomeBackground } from "@/components/backgrounds/WelcomeBackground";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
+import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { WelcomeText } from "@/components/text/WelcomeText";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
@@ -22,7 +23,10 @@ export default function Index() {
         <View style={welcomeTextContainerStyle}>
           <WelcomeText />
         </View>
-        <PrimaryButton text="Sign up" />
+        <View style={buttonContainerStyle}>
+          <PrimaryButton text="Sign up" />
+          <SecondaryButton text="Sign in" />
+        </View>
       </SafeAreaView>
     </View>
   );
@@ -37,7 +41,7 @@ const safeAreaStyle: ViewStyle = {
 };
 
 const welcomeTextContainerStyle: ViewStyle = {
-  width: "70%",
+  width: "100%",
 };
 
 const welcomeBackgroundContainerStyle: ViewStyle = {
@@ -46,4 +50,9 @@ const welcomeBackgroundContainerStyle: ViewStyle = {
   left: 0,
   right: 0,
   bottom: 0,
+};
+
+const buttonContainerStyle: ViewStyle = {
+  flexDirection: "column",
+  gap: spacing.m,
 };

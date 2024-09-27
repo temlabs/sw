@@ -1,8 +1,9 @@
 import { TextStyle } from "react-native";
 
 const h0: TextStyle = {
-  fontFamily: "Sora-Bold",
+  fontFamily: "Sora-Medium",
   fontSize: 56,
+  fontWeight: "600",
 } as const;
 
 const h1: TextStyle = {
@@ -25,8 +26,7 @@ const h3: TextStyle = {
 
 const h4: TextStyle = {
   fontFamily: "Sora-Medium",
-  fontSize: 16,
-  fontWeight: "700",
+  fontSize: 20,
 } as const;
 
 const medium: TextStyle = {
