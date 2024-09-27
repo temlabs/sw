@@ -30,7 +30,7 @@ import Animated, {
 
 const AnimatedRadialGradient = Animated.createAnimatedComponent(RadialGradient);
 
-export function PrimaryButton({ text, onPress }: ButtonProps) {
+export function PrimaryButton(props: ButtonProps) {
   const startRadius = 0.1;
   const endRadius = 0.5;
   const radius = useSharedValue(startRadius);
@@ -56,7 +56,7 @@ export function PrimaryButton({ text, onPress }: ButtonProps) {
 
   return (
     <TouchableWithoutFeedback
-      //   onPress={onPress}
+      {...props}
       onPressIn={spreadGradient}
       onPressOut={shrinkGradient}
       hitSlop={10}
@@ -88,20 +88,13 @@ export function PrimaryButton({ text, onPress }: ButtonProps) {
               </AnimatedRadialGradient>
             </Defs>
             <Rect x="0" y="0" width="100%" height="100%" fill="url(#grad)" />
-
-            <Circle cx="10%" cy="20%" r="15" fill="grey" opacity="0.5" />
-            {/* <Circle cx="50%" cy="50%" r="25" fill="#4ECDC4" opacity="1" /> */}
-            <Circle cx="90%" cy="30%" r="10" fill="#45B7D1" opacity="0.5" />
-            {/* <Circle cx="15%" cy="75%" r="20" fill="#FFA07A" opacity="1" /> */}
-            <Circle cx="85%" cy="80%" r="18" fill="white" opacity="0.5" />
           </Svg>
         </View>
         <BlurView
           style={textContainer}
           experimentalBlurMethod="dimezisBlurView"
-          intensity={60}
         >
-          <Text style={{ ...typography.h4, color: "black" }}>{text}</Text>
+          <Text style={{ ...typography.h4, color: "black" }}>{props.text}</Text>
         </BlurView>
       </View>
     </TouchableWithoutFeedback>
@@ -109,7 +102,6 @@ export function PrimaryButton({ text, onPress }: ButtonProps) {
 }
 
 const container: ViewStyle = {
-  backgroundColor: colors.button.primary,
   borderRadius: 48,
   justifyContent: "center",
   alignItems: "center",

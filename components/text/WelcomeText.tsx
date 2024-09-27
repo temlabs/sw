@@ -15,7 +15,12 @@ const copy = [
 export function WelcomeText() {
   return (
     <Text
-      style={{ ...typography.h0, color: colors.text.primary, flexWrap: "wrap" }}
+      style={{
+        ...typography.h0,
+        color: colors.text.primary,
+
+        flexWrap: "wrap",
+      }}
     >
       {copy[Math.round(Math.random() * (copy.length - 1))]}
     </Text>

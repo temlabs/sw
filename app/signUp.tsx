@@ -1,23 +1,14 @@
-import { WelcomeBackground } from "@/components/backgrounds/WelcomeBackground";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
-import { WelcomeText } from "@/components/text/WelcomeText";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 import { Link, router } from "expo-router";
-import { Text, View, ViewStyle } from "react-native";
+import { useEffect } from "react";
+import { Alert, BackHandler, Text, View, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Index() {
-  const goToSignUp = () => {
-    router.push("/signUp");
-  };
-
-  const goToSignIn = () => {
-    router.push("/logIn");
-  };
-
+export default function SignUp() {
   return (
     <View
       style={{
@@ -25,19 +16,16 @@ export default function Index() {
         backgroundColor: colors.background.primary,
       }}
     >
-      <View style={welcomeBackgroundContainerStyle}>
-        <WelcomeBackground />
-      </View>
       <SafeAreaView style={safeAreaStyle}>
-        <View style={welcomeTextContainerStyle}>
-          <WelcomeText />
-        </View>
+        <Text style={{ ...typography.h0, color: colors.text.primary }}>
+          Sign up
+        </Text>
         <View style={buttonContainerStyle}>
           <Link href="/signUp" asChild>
-            <PrimaryButton text="Sign up" />
+            <PrimaryButton text="Create my account" />
           </Link>
-          <Link href="/logIn" asChild>
-            <SecondaryButton text="Log in" />
+          <Link href="/" asChild>
+            <SecondaryButton text="Back" />
           </Link>
         </View>
       </SafeAreaView>
