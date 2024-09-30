@@ -1,4 +1,4 @@
-import { WelcomeBackground } from "@/components/backgrounds/WelcomeBackground";
+import { WelcomeBackground } from "@/components/backgrounds/welcomeBackground/WelcomeBackground";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { WelcomeText } from "@/components/text/WelcomeText";
@@ -7,6 +7,7 @@ import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 import { Link, router } from "expo-router";
 import { Text, View, ViewStyle } from "react-native";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
@@ -22,24 +23,26 @@ export default function Index() {
     <View
       style={{
         flex: 1,
-        backgroundColor: colors.background.primary,
+        // backgroundColor: "red",
+        // backgroundColor: colors.background.primary,
       }}
     >
-      <View style={welcomeBackgroundContainerStyle}>
+      {/* <View style={welcomeBackgroundContainerStyle}>
         <WelcomeBackground />
-      </View>
+      </View> */}
       <SafeAreaView style={safeAreaStyle}>
-        <View style={welcomeTextContainerStyle}>
-          <WelcomeText />
-        </View>
-        <View style={buttonContainerStyle}>
+        <View style={welcomeTextContainerStyle}>{/* <WelcomeText /> */}</View>
+        <Animated.View
+          style={buttonContainerStyle}
+          entering={FadeIn.delay(2500).duration(1000)}
+        >
           <Link href="/signUp" asChild>
             <PrimaryButton text="Sign up" />
           </Link>
           <Link href="/logIn" asChild>
             <SecondaryButton text="Log in" />
           </Link>
-        </View>
+        </Animated.View>
       </SafeAreaView>
     </View>
   );
@@ -47,6 +50,7 @@ export default function Index() {
 
 const safeAreaStyle: ViewStyle = {
   flex: 1,
+  backgroundColor: "transparent",
   paddingHorizontal: spacing.m,
   paddingBottom: spacing.l,
   justifyContent: "flex-end",

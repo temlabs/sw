@@ -11,7 +11,10 @@ import { typography } from "@/theme/typography";
 import { spacing } from "@/theme/spacing";
 import { colors } from "@/theme/colors";
 
-export function SecondaryButton(props: ButtonProps) {
+export function SecondaryButton(
+  props: ButtonProps,
+  ref: React.ForwardedRef<TouchableOpacity>
+) {
   return (
     <TouchableOpacity {...props}>
       <View style={container}>

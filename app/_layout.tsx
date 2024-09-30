@@ -1,10 +1,13 @@
+import { WelcomeBackground } from "@/components/backgrounds/welcomeBackground/WelcomeBackground";
 import { colors } from "@/theme/colors";
 import { typography } from "@/theme/typography";
 import { useFonts } from "expo-font";
-import { router, Stack } from "expo-router";
-import { useEffect } from "react";
+import { router, Stack, usePathname } from "expo-router";
+import React, { useEffect } from "react";
+import { View, ViewStyle } from "react-native";
+import { useAnimatedReaction } from "react-native-reanimated";
 import { enableFreeze } from "react-native-screens";
-enableFreeze(true);
+enableFreeze(false);
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -31,22 +34,44 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: true,
-        animation: "fade_from_bottom",
-        animationDuration: 200,
-        customAnimationOnGesture: true,
-        animationTypeForReplace: "push",
-        headerTitleStyle: { ...typography.h1, color: colors.text.primary },
-        headerTransparent: true,
-        statusBarTranslucent: true,
-        headerTintColor: colors.text.primary,
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.background.primary,
       }}
     >
-      <Stack.Screen name={"index"} options={{ headerShown: false }} />
-      <Stack.Screen name={"signUp"} options={{ title: "Sign up" }} />
-      <Stack.Screen name={"logIn"} options={{ title: "Log in" }} />
-    </Stack>
+      <View style={welcomeBackgroundContainerStyle}>
+        <WelcomeBackground />
+      </View>
+
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          animation: "fade",
+          animationDuration: 150,
+          customAnimationOnGesture: true,
+          animationTypeForReplace: "push",
+          headerTitleStyle: { ...typography.h1, color: colors.text.primary },
+          headerTransparent: true,
+          statusBarTranslucent: true,
+          headerTintColor: colors.text.primary,
+          contentStyle: {
+            backgroundColor: "transparent",
+          },
+        }}
+      >
+        <Stack.Screen name={"index"} options={{ headerShown: false }} />
+        <Stack.Screen name={"signUp"} options={{ title: "Sign up" }} />
+        <Stack.Screen name={"logIn"} options={{ title: "Log in" }} />
+      </Stack>
+    </View>
   );
 }
+
+const welcomeBackgroundContainerStyle: ViewStyle = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+};

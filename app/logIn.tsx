@@ -1,33 +1,69 @@
+import { WelcomeBackground } from "@/components/backgrounds/welcomeBackground/WelcomeBackground";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
+import { TextInput } from "@/components/textInputs/TextInput";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 import { Link } from "expo-router";
+import { useState } from "react";
 import { Text, View, ViewStyle } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 export default function LogIn() {
+  const insets = useSafeAreaInsets();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogIn = () => {
+    console.log("Log in");
+  };
+
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: colors.background.primary,
       }}
     >
-      <SafeAreaView style={safeAreaStyle}>
-        <Text style={{ ...typography.h0, color: colors.text.primary }}>
-          Sign IN
-        </Text>
+      <View
+        style={{
+          ...safeAreaStyle,
+          paddingTop: insets.top,
+          paddingBottom: spacing.l + insets.bottom,
+        }}
+      >
+        <Animated.View
+          style={inputContainerStyle}
+          entering={FadeIn.delay(500)}
+          exiting={FadeOut}
+        >
+          <TextInput
+            label="Username/Email"
+            value={username}
+            autoCapitalize="none"
+            onChangeText={(text) => setUsername(text)}
+          />
+
+          <TextInput
+            label="Password"
+            value={password}
+            autoCapitalize="none"
+            secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
+          />
+        </Animated.View>
         <View style={buttonContainerStyle}>
-          <Link href="/signUp" asChild>
-            <PrimaryButton text="Log in" />
-          </Link>
+          <PrimaryButton text="Log in" onPress={handleLogIn} />
+
           <Link href="/" asChild>
             <SecondaryButton text="Back" />
           </Link>
         </View>
-      </SafeAreaView>
+      </View>
     </View>
   );
 }
@@ -40,19 +76,13 @@ const safeAreaStyle: ViewStyle = {
   gap: spacing.xl,
 };
 
-const welcomeTextContainerStyle: ViewStyle = {
-  width: "100%",
-};
-
-const welcomeBackgroundContainerStyle: ViewStyle = {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-};
-
 const buttonContainerStyle: ViewStyle = {
   flexDirection: "column",
+  gap: spacing.m,
+};
+
+const inputContainerStyle: ViewStyle = {
+  flexGrow: 1,
+  justifyContent: "center",
   gap: spacing.m,
 };

@@ -1,10 +1,17 @@
 import React from "react";
-import { useDerivedValue, useSharedValue } from "react-native-reanimated";
+import {
+  SharedValue,
+  useDerivedValue,
+  useSharedValue,
+} from "react-native-reanimated";
 import { animate, getPoints, spline, mapNumbers } from "./functions";
 import {
+  AnimatedProp,
   Color,
   LinearGradient,
   Path,
+  RadialGradient,
+  Transforms3d,
   useClock,
   vec,
 } from "@shopify/react-native-skia";
@@ -15,7 +22,9 @@ interface MorphingCircleProps {
   radius: number;
   x?: number;
   y?: number;
-  colors?: Color[];
+  color1: SharedValue<Color>;
+  color2: SharedValue<Color>;
+  transform?: AnimatedProp<Transforms3d | undefined>;
 }
 
 export function MorphingCircle({
@@ -23,7 +32,9 @@ export function MorphingCircle({
   radius,
   x,
   y,
-  colors,
+  color1,
+  color2,
+  transform,
 }: MorphingCircleProps) {
   const points = useSharedValue(getPoints(numPoints, radius, x, y));
 
@@ -58,16 +69,33 @@ export function MorphingCircle({
     return vec((x ?? 0) + radius, newValue);
   }, [clock]);
 
-  const colorsAnimated = useDerivedValue(() => {
-    return colors ?? ["green", "red"];
-  }, [colors]);
+  const radiusOffset = useSharedValue(0);
+  const gradientRadius = useDerivedValue(() => {
+    radiusOffset.value += noiseStep / 8;
+
+    const radiusNoise = noise(
+      (x ?? 0) + radiusOffset.value + 0.05,
+      (y ?? 0) + radiusOffset.value
+    );
+
+    return radius * 0.8 + radiusNoise * radius * 0.5;
+  }, [clock]);
+
+  const gradientColors = useDerivedValue(() => {
+    return [color1.value, color2.value];
+  }, []);
 
   return (
-    <Path path={path} color={"red"}>
-      <LinearGradient
+    <Path path={path} color={"red"} transform={transform}>
+      {/* <LinearGradient
         start={vec((x ?? 0) - radius, y ?? 0)}
         end={endGradientCoordinates}
         colors={colorsAnimated}
+      /> */}
+      <RadialGradient
+        c={vec(x, y)}
+        r={gradientRadius}
+        colors={gradientColors}
       />
     </Path>
   );
