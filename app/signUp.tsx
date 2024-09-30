@@ -31,7 +31,7 @@ export default function SignUp() {
     console.log("Sign up");
   };
   const incrementIndex = () => {
-    index < 2 ? setIndex(index + 1) : handleSignUp;
+    index < 2 ? setIndex(index + 1) : handleSignUp();
   };
   const goBack = () => (index > 0 ? setIndex(index - 1) : router.back());
   const insets = useSafeAreaInsets();
