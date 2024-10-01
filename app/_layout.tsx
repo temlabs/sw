@@ -21,7 +21,7 @@ export default function RootLayout() {
     "Sora-Thin": require("@/assets/fonts/Sora-Thin.ttf"),
   });
 
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   useEffect(() => {
     if (fontsLoaded && isAuthenticated) {
