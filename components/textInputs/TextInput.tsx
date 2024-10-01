@@ -13,6 +13,8 @@ import {
 } from "react-native";
 import { Text, View } from "react-native";
 import Animated, {
+  FadeIn,
+  FadeOut,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -21,6 +23,7 @@ import Animated, {
 interface Props extends Omit<TextInputProps, "style"> {
   label: string;
   leadingIcon?: React.ReactNode;
+  errorText?: string;
 }
 const withSpringOptions = { mass: 0.1 };
 
@@ -52,20 +55,29 @@ export function TextInput({ label, ...props }: Props) {
   return (
     <View style={containerStyle}>
       <Text style={labelStyle}>{label}</Text>
-
-      <Animated.View style={[inputContainerStyle, animatedBorderStyle]}>
-        <BlurView intensity={100} tint="prominent" style={blurViewStyle} />
-        {/* <View style={innerContainerStyle}> */}
-        {props.leadingIcon}
-        <RNTextInput
-          {...props}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          cursorColor={colors.neutral[400]}
-          style={textInputStyle}
-        />
-        {/* </View> */}
-      </Animated.View>
+      <View style={{ gap: spacing.xs }}>
+        <Animated.View style={[inputContainerStyle, animatedBorderStyle]}>
+          <BlurView intensity={100} tint="prominent" style={blurViewStyle} />
+          {/* <View style={innerContainerStyle}> */}
+          {props.leadingIcon}
+          <RNTextInput
+            {...props}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            cursorColor={colors.neutral[400]}
+            style={textInputStyle}
+          />
+          {/* </View> */}
+        </Animated.View>
+        {props.errorText && (
+          <Animated.View
+            entering={FadeIn.springify(100)}
+            exiting={FadeOut.springify(100)}
+          >
+            <Text style={errorTextStyle}>{props.errorText}</Text>
+          </Animated.View>
+        )}
+      </View>
     </View>
   );
 }
@@ -114,4 +126,9 @@ const innerContainerStyle: ViewStyle = {
   alignItems: "flex-start",
   gap: spacing.xs,
   // backgroundColor: "red",
+};
+
+const errorTextStyle: TextStyle = {
+  ...typography.small,
+  color: colors.text.error,
 };

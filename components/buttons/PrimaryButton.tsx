@@ -13,7 +13,7 @@ export function PrimaryButton(
   return (
     <TouchableHighlight
       {...props}
-      style={outerContainer}
+      style={[outerContainer, props.disabled ? { opacity: 0.5 } : {}]}
       underlayColor={colors.button.primaryActive}
       hitSlop={10}
     >

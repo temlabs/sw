@@ -7,6 +7,7 @@ export const black_300 = "#575452";
 export const black_400 = "#272420";
 export const black_500 = "#100C08";
 export const black_600 = "#000000";
+export const red_100 = "#cc6a6a";
 
 export const colors = {
   border: {
@@ -20,6 +21,7 @@ export const colors = {
     primary: white_0,
     secondary: white_100,
     disabled: white_200,
+    error: red_100,
   },
   background: {
     primary: black_500,

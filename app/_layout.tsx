@@ -5,9 +5,11 @@ import { useFonts } from "expo-font";
 import { router, Stack, usePathname } from "expo-router";
 import React, { useEffect } from "react";
 import { View, ViewStyle } from "react-native";
-import { useAnimatedReaction } from "react-native-reanimated";
 import { enableFreeze } from "react-native-screens";
+import { Amplify } from "aws-amplify";
+import amplifyconfig from "@/auth/amplify/amplifyConfiguration.json";
 enableFreeze(false);
+Amplify.configure(amplifyconfig);
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -21,7 +23,7 @@ export default function RootLayout() {
     "Sora-Thin": require("@/assets/fonts/Sora-Thin.ttf"),
   });
 
-  const isAuthenticated = true;
+  const isAuthenticated = false;
 
   useEffect(() => {
     if (fontsLoaded && isAuthenticated) {
