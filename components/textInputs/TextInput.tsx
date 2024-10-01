@@ -4,45 +4,83 @@ import { typography } from "@/theme/typography";
 import { BlurView } from "expo-blur";
 import React, { useState } from "react";
 import {
+  NativeSyntheticEvent,
   TextInput as RNTextInput,
+  TextInputFocusEventData,
   TextInputProps,
   TextStyle,
   ViewStyle,
 } from "react-native";
 import { Text, View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 
 interface Props extends Omit<TextInputProps, "style"> {
   label: string;
+  leadingIcon?: React.ReactNode;
 }
+const withSpringOptions = { mass: 0.1 };
 
 export function TextInput({ label, ...props }: Props) {
-  const [isFocused, setIsFocused] = useState(false);
+  const borderColor = useSharedValue<string>(colors.border.inputInactive);
+
+  const animatedBorderStyle = useAnimatedStyle(() => {
+    return {
+      borderColor: borderColor.value,
+    };
+  });
+
+  const handleFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    borderColor.value = withSpring(
+      colors.border.inputActive,
+      withSpringOptions
+    );
+    props.onFocus?.(e);
+  };
+
+  const handleBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
+    borderColor.value = withSpring(
+      colors.border.inputInactive,
+      withSpringOptions
+    );
+    props.onBlur?.(e);
+  };
 
   return (
     <View style={containerStyle}>
       <Text style={labelStyle}>{label}</Text>
 
-      <View style={inputContainerStyle}>
+      <Animated.View style={[inputContainerStyle, animatedBorderStyle]}>
         <BlurView intensity={100} tint="prominent" style={blurViewStyle} />
+        {/* <View style={innerContainerStyle}> */}
+        {props.leadingIcon}
         <RNTextInput
           {...props}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           cursorColor={colors.neutral[400]}
           style={textInputStyle}
         />
-      </View>
+        {/* </View> */}
+      </Animated.View>
     </View>
   );
 }
 
 const inputContainerStyle: ViewStyle = {
   borderWidth: 1,
-  borderColor: colors.border.inputActive,
-  borderRadius: 20,
+  borderColor: colors.border.inputInactive,
+  borderRadius: 10,
   width: "100%",
   overflow: "hidden",
   padding: spacing.m,
-  justifyContent: "center",
-  alignItems: "center",
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  alignItems: "flex-start",
+  gap: spacing.xs,
 };
 
 const blurViewStyle: ViewStyle = {
@@ -68,4 +106,12 @@ const labelStyle: TextStyle = {
 const containerStyle: ViewStyle = {
   width: "100%",
   gap: spacing.m,
+};
+
+const innerContainerStyle: ViewStyle = {
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  alignItems: "flex-start",
+  gap: spacing.xs,
+  // backgroundColor: "red",
 };

@@ -7,7 +7,14 @@ import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 import { Link } from "expo-router";
 import { useState } from "react";
-import { Text, View, ViewStyle } from "react-native";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+  ViewStyle,
+} from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import {
   SafeAreaView,
@@ -24,47 +31,49 @@ export default function LogIn() {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View
         style={{
-          ...safeAreaStyle,
-          paddingTop: insets.top,
-          paddingBottom: spacing.l + insets.bottom,
+          flex: 1,
         }}
       >
-        <Animated.View
-          style={inputContainerStyle}
-          entering={FadeIn.delay(500)}
-          exiting={FadeOut}
+        <KeyboardAvoidingView
+          style={{
+            ...safeAreaStyle,
+            paddingTop: insets.top,
+            paddingBottom: spacing.l + insets.bottom,
+          }}
         >
-          <TextInput
-            label="Username/Email"
-            value={username}
-            autoCapitalize="none"
-            onChangeText={(text) => setUsername(text)}
-          />
+          <Animated.View
+            style={inputContainerStyle}
+            entering={FadeIn.delay(500)}
+            exiting={FadeOut}
+          >
+            <TextInput
+              label="Username/Email"
+              value={username}
+              autoCapitalize="none"
+              onChangeText={(text) => setUsername(text)}
+            />
 
-          <TextInput
-            label="Password"
-            value={password}
-            autoCapitalize="none"
-            secureTextEntry={true}
-            onChangeText={(text) => setPassword(text)}
-          />
-        </Animated.View>
-        <View style={buttonContainerStyle}>
-          <PrimaryButton text="Log in" onPress={handleLogIn} />
+            <TextInput
+              label="Password"
+              value={password}
+              autoCapitalize="none"
+              secureTextEntry={true}
+              onChangeText={(text) => setPassword(text)}
+            />
+          </Animated.View>
+          <View style={buttonContainerStyle}>
+            <PrimaryButton text="Log in" onPress={handleLogIn} />
 
-          <Link href="/" asChild>
-            <SecondaryButton text="Back" />
-          </Link>
-        </View>
+            <Link href="/" asChild>
+              <SecondaryButton text="Back" />
+            </Link>
+          </View>
+        </KeyboardAvoidingView>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 

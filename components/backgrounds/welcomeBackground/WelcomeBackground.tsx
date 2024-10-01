@@ -36,8 +36,8 @@ const color1 = [black_500, "red", "cyan"];
 const color2 = [black_300, "green", "red"];
 const color3 = [white_0, "yellow", "blue"];
 const color4 = [black_500, "blue", "green"];
-const withTimingOptions = { duration: 500, easing: Easing.linear };
 const withSpringOptions = { stiffness: 100, damping: 10 };
+const withSpringColorOptions = { mass: 0.6 };
 
 const translateX1 = -300;
 const translateY1 = -200;
@@ -46,7 +46,7 @@ const translateY2 = -250;
 
 export function WelcomeBackground() {
   const font = useFont(require("@/assets/fonts/Sora-Regular.ttf"), 24);
-  const currentPath = usePathname();
+  const currentPath = usePathname() as Href;
   const currentIndex = paths.indexOf(currentPath);
   const currentIndexIsWelcome = currentIndex === 0;
   const gc1 = useSharedValue(color1[currentIndex]);
@@ -66,10 +66,10 @@ export function WelcomeBackground() {
         duration: index === 0 ? 2000 : 150,
         easing: Easing.linear,
       });
-      gc1.value = withTiming(color1[index], withTimingOptions);
-      gc2.value = withTiming(color2[index], withTimingOptions);
-      gc3.value = withTiming(color3[index], withTimingOptions);
-      gc4.value = withTiming(color4[index], withTimingOptions);
+      gc1.value = withSpring(color1[index], withSpringColorOptions);
+      gc2.value = withSpring(color2[index], withSpringColorOptions);
+      gc3.value = withSpring(color3[index], withSpringColorOptions);
+      gc4.value = withSpring(color4[index], withSpringColorOptions);
       tx1.value = withSpring(index === 0 ? 0 : translateX1, withSpringOptions);
       ty1.value = withSpring(index === 0 ? 0 : translateY1, withSpringOptions);
       tx2.value = withSpring(index === 0 ? 0 : translateX2, withSpringOptions);
@@ -80,13 +80,6 @@ export function WelcomeBackground() {
   const clock = useClock();
 
   const noise = createNoise2D();
-
-  // useEffect(() => {
-  //   baseOpacity.value = withDelay(
-  //     2000,
-  //     withTiming(1, { duration: 2000, easing: Easing.linear })
-  //   );
-  // }, []);
 
   const blurOffset = useSharedValue(0);
   const blur = useDerivedValue(() => {

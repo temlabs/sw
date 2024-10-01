@@ -11,6 +11,7 @@ export const black_600 = "#000000";
 export const colors = {
   border: {
     inputActive: black_200,
+    inputInactive: black_300,
   },
   primary: "#de4035",
   secondary: "#000000",
