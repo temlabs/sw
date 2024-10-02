@@ -1,4 +1,4 @@
-import { SignUpParams, SignUpResponse } from "./types";
+import { LoginParams, SignUpParams, SignUpResponse } from "./types";
 
 export const signUp = async (
   signUpParams: SignUpParams

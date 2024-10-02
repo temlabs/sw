@@ -1,3 +1,4 @@
+import { signUp } from "@/auth/functions";
 import { PrimaryButton } from "@/components/buttons/PrimaryButton";
 import { SecondaryButton } from "@/components/buttons/SecondaryButton";
 import { TextInput } from "@/components/textInputs/TextInput";
@@ -9,6 +10,7 @@ import {
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
+import { signIn } from "aws-amplify/auth";
 import { Link, router } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -37,8 +39,23 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState(["", "", ""]);
   const [touched, setTouched] = useState([false, false, false]);
-  const handleSignUp = () => {};
+  const handleSignUp = async () => {
+    console.log("signUp", { username, password, email });
+    try {
+      // const signUpRes = await signUp({ username, password, email });
+      // console.log("signUpRes", signUpRes);
+      const signInRes = await signIn({
+        username,
+        password,
+        options: { authFlowType: "USER_SRP_AUTH" },
+      });
+      console.log("signInRes", signInRes);
+    } catch (error) {
+      console.log("error", error, error.message);
+    }
+  };
   const incrementIndex = () => {
+    console.log("incrementIndex", index);
     index < 2 ? setIndex(index + 1) : handleSignUp();
   };
   const goBack = () => (index > 0 ? setIndex(index - 1) : router.back());

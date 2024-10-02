@@ -5,6 +5,7 @@ import { TextInput } from "@/components/textInputs/TextInput";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
+import { signIn } from "aws-amplify/auth";
 import { Link } from "expo-router";
 import { useState } from "react";
 import {
@@ -26,8 +27,18 @@ export default function LogIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogIn = () => {
+  const handleLogIn = async () => {
     console.log("Log in");
+    try {
+      const signInRes = await signIn({
+        username,
+        password,
+        options: { authFlowType: "USER_SRP_AUTH" },
+      });
+      console.log("signInRes", signInRes);
+    } catch (error) {
+      console.log("error", error, error.message);
+    }
   };
 
   return (

@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-sheerwonder-dev-2f4fb-authRole",
+      "UnauthRoleArn": "arn:aws:iam::975050127069:role/amplify-sheerwonder-dev-2f4fb-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::975050127069:role/amplify-sheerwonder-dev-2f4fb-authRole",
+      "Region": "eu-west-2",
+      "DeploymentBucketName": "amplify-sheerwonder-dev-2f4fb-deployment",
+      "UnauthRoleName": "amplify-sheerwonder-dev-2f4fb-unauthRole",
+      "StackName": "amplify-sheerwonder-dev-2f4fb",
+      "StackId": "arn:aws:cloudformation:eu-west-2:975050127069:stack/amplify-sheerwonder-dev-2f4fb/09928760-8033-11ef-9527-02bbe68dda41",
+      "AmplifyAppId": "d2kfildzzcxkpk"
+    }
+  }
+}

@@ -47,6 +47,7 @@
     "simplex-noise": "^4.0.3"
   },
   "devDependencies": {
+    "@aws-amplify/cli": "^12.12.6",
     "@babel/core": "^7.20.0",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.2.45",
