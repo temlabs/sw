@@ -12,6 +12,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Text,
+  TextStyle,
   TouchableWithoutFeedback,
   View,
   ViewStyle,
@@ -51,24 +52,28 @@ export default function LogIn() {
         <KeyboardAvoidingView
           style={{
             ...safeAreaStyle,
-            paddingTop: insets.top,
+            paddingTop: insets.top + spacing.l,
             paddingBottom: spacing.l + insets.bottom,
           }}
         >
+          <Text style={titleStyle}>hello, again</Text>
           <Animated.View
             style={inputContainerStyle}
             entering={FadeIn.delay(500)}
             exiting={FadeOut}
           >
             <TextInput
-              label="Username/Email"
+              label=""
               value={username}
               autoCapitalize="none"
               onChangeText={(text) => setUsername(text)}
+              placeholder="Username/Email"
             />
 
             <TextInput
-              label="Password"
+              label=""
+              placeholder="Password"
+              placeholderTextColor={'grey'}
               value={password}
               autoCapitalize="none"
               secureTextEntry={true}
@@ -104,5 +109,9 @@ const buttonContainerStyle: ViewStyle = {
 const inputContainerStyle: ViewStyle = {
   flexGrow: 1,
   justifyContent: "center",
-  gap: spacing.m,
+  // gap: spacing.s,
 };
+
+const titleStyle:TextStyle = {
+...typography.h3, color:colors.text.primary, alignSelf:'center', opacity:0.5
+}

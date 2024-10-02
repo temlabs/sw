@@ -5,15 +5,28 @@ import { WelcomeText } from "@/components/text/WelcomeText";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
-import { Link, router } from "expo-router";
+import { Href, Link, router, usePathname } from "expo-router";
 import { Text, View, ViewStyle } from "react-native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut, useAnimatedReaction, useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   const goToSignUp = () => {
     router.push("/signUp");
   };
+
+  const currentPath = usePathname() as Href
+  const buttonOpacity = useSharedValue(1)
+  useAnimatedReaction(()=>currentPath, path => {
+    if(path === '/'){
+      buttonOpacity.value = withDelay(150, withSpring(1, {mass:5, damping:50}))
+    }else {
+      buttonOpacity.value = 0
+    }
+  })
+  const buttonAnimatedStyle = useAnimatedStyle(()=>{
+    return {opacity:buttonOpacity.value}
+  })
 
   const goToSignIn = () => {
     router.push("/logIn");
@@ -33,8 +46,8 @@ export default function Index() {
       <SafeAreaView style={safeAreaStyle}>
         <View style={welcomeTextContainerStyle}>{/* <WelcomeText /> */}</View>
         <Animated.View
-          style={buttonContainerStyle}
-          entering={FadeIn.delay(2500).duration(1000)}
+          style={[buttonContainerStyle,buttonAnimatedStyle]}
+          // entering={FadeIn.delay(2500).duration(1000)}
         >
           <Link href="/signUp" asChild>
             <PrimaryButton text="Sign up" />

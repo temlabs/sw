@@ -51,7 +51,7 @@ export default function SignUp() {
       });
       console.log("signInRes", signInRes);
     } catch (error) {
-      console.log("error", error, error.message);
+      console.log("error", error, error.underlyingError);
     }
   };
   const incrementIndex = () => {
@@ -113,6 +113,7 @@ export default function SignUp() {
             ...safeAreaStyle,
             paddingTop: insets.top,
             paddingBottom: spacing.l + insets.bottom,
+            paddingHorizontal:spacing.m
           }}
         >
           {index === 0 ? (
@@ -210,7 +211,7 @@ const buttonContainerStyle: ViewStyle = {
 };
 
 const inputContainerStyle: ViewStyle = {
-  flexGrow: 1,
+  // flexGrow: 1,
   justifyContent: "flex-end",
   zIndex: 1,
 };
@@ -223,4 +224,6 @@ const leadingIconStyle: TextStyle = {
 const innerInputContainerStyle: ViewStyle = {
   height: "50%",
   justifyContent: "flex-start",
+  overflow:'hidden'
+
 };

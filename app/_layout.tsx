@@ -35,6 +35,8 @@ export default function RootLayout() {
     return null; // or a loading screen
   }
 
+  
+
   return (
     <View
       style={{
@@ -50,7 +52,6 @@ export default function RootLayout() {
         screenOptions={{
           headerShown: false,
           animation: "fade",
-          animationDuration: 150,
           customAnimationOnGesture: true,
           animationTypeForReplace: "push",
           headerTitleStyle: { ...typography.h1, color: colors.text.primary },

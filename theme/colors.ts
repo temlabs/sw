@@ -12,7 +12,7 @@ export const red_100 = "#cc6a6a";
 export const colors = {
   border: {
     inputActive: black_200,
-    inputInactive: black_300,
+    inputInactive: "transparent",//black_300,
     bottomTab: black_400,
   },
   primary: "#de4035",
