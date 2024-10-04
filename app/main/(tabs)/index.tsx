@@ -1,9 +1,12 @@
 import { View, Text, StyleSheet } from "react-native";
+import { FlashList } from "@shopify/flash-list";
 
-export default function Tab() {
+export default function HomeTab() {
+  const data = [];
+
   return (
     <View style={styles.container}>
-      <Text>Tab [Home|Settings]</Text>
+      <FlashList />
     </View>
   );
 }
