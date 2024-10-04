@@ -24,6 +24,7 @@ import {
 } from "react-native-safe-area-context";
 
 export default function LogIn() {
+  const [isLoading, setIsLoading] = useState(false)
   const insets = useSafeAreaInsets();
   const { initialUsername = "" } = useLocalSearchParams();
   const [username, setUsername] = useState<string>(
@@ -34,6 +35,7 @@ export default function LogIn() {
   const handleLogIn = async () => {
     console.log("Log in");
     try {
+      setIsLoading(true)
       const signInRes = await signIn({
         username,
         password,
@@ -41,7 +43,10 @@ export default function LogIn() {
       });
       console.log("signInRes", signInRes);
     } catch (error) {
+      setIsLoading(false)
       console.log("error", error, error.message);
+    }finally {
+      setIsLoading(false)
     }
   };
 
@@ -56,7 +61,7 @@ export default function LogIn() {
           style={{
             ...safeAreaStyle,
             paddingTop: insets.top + spacing.l,
-            paddingBottom: spacing.l + insets.bottom,
+            paddingBottom: Math.min(insets.bottom, spacing.l),
           }}
         >
           <Text style={titleStyle}>hello, again</Text>
@@ -84,7 +89,7 @@ export default function LogIn() {
             />
           </Animated.View>
           <View style={buttonContainerStyle}>
-            <PrimaryButton text="Log in" onPress={handleLogIn} />
+            <PrimaryButton text="Log in" onPress={handleLogIn}  isLoading={isLoading}/>
 
             <Link href="/" asChild>
               <SecondaryButton text="Back" />
@@ -99,7 +104,7 @@ export default function LogIn() {
 const safeAreaStyle: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.m,
-  paddingBottom: spacing.l,
+  // paddingBottom: spacing.l,
   justifyContent: "flex-end",
   gap: spacing.xl,
 };

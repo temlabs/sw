@@ -204,7 +204,7 @@ export default function ConfirmSignUp() {
 const safeAreaStyle: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.m,
-  paddingBottom: spacing.l,
+  // paddingBottom: spacing.l,
   justifyContent: "flex-end",
   gap: spacing.xl,
 };

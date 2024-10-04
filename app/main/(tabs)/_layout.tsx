@@ -3,9 +3,11 @@ import { DiscoverIcon } from "@/components/icons/DiscoverIcon";
 import { HomeIcon } from "@/components/icons/HomeIcon";
 import { ProfileIcon } from "@/components/icons/ProfileIcon";
 import { colors } from "@/theme/colors";
+import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 import { BlurView } from "expo-blur";
 import { Tabs } from "expo-router";
+import { View } from "react-native";
 
 export default function MainTabsLayout() {
   return (
@@ -13,12 +15,15 @@ export default function MainTabsLayout() {
       sceneContainerStyle={{
         backgroundColor: "transparent",
       }}
+      
       screenOptions={{
         tabBarStyle: {
           backgroundColor: "transparent",
+          position:'absolute',
           elevation: 0,
+          paddingVertical:spacing.s,
           borderTopColor: colors.border.bottomTab,
-          height: 60,
+         
         },
         tabBarActiveTintColor: colors.primary,
         tabBarShowLabel: false,
@@ -27,7 +32,7 @@ export default function MainTabsLayout() {
         headerTitleStyle: typography.h2,
         headerTransparent: true,
         tabBarBackground: () => (
-          <BlurView style={{ backgroundColor: "transparent" }} />
+          <BlurView  style={{ width:'100%', height:'100%'}} tint="dark" intensity={40} />
         ),
       }}
     >
@@ -35,6 +40,7 @@ export default function MainTabsLayout() {
         name="index"
         options={{
           title: "Home",
+          headerShown:false,
           tabBarIcon: ({ color }) => (
             <HomeIcon width={24} height={24} fill={color} />
           ),

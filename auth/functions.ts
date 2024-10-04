@@ -11,7 +11,7 @@ export const signUp = async (signUpParams: SignUpParams) => {
     const resJson = await makeRequest<SignUpResponse>(
       "POST",
       "signUp",
-      signUpParams
+      {body:signUpParams}
     );
     return resJson;
   } catch (error) {
@@ -27,7 +27,7 @@ export const confirmSignUp = async (
     const resJson = await makeRequest<ConfirmSignUpResponse>(
       "POST",
       "confirmSignUp",
-      confirmSignUpParams
+      {body:confirmSignUpParams}
     );
     return resJson;
   } catch (error) {

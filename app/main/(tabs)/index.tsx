@@ -1,21 +1,39 @@
-import { View, Text, StyleSheet } from "react-native";
-import { FlashList } from "@shopify/flash-list";
+import { View, Text, StyleSheet, ViewStyle } from "react-native";
+import { FlashList, ListRenderItem } from "@shopify/flash-list";
+import { useShortPostQuery } from "@/posts/useShortPostQuery";
+import { postQueryKeys } from "@/posts/postQueryKeys";
+import { OptimisticShortPost, ShortPost } from "@/posts/types";
+import { isOptimisticShortPost } from "@/posts/functions";
+import { FeedShortPost } from "@/components/posts/FeedShortPost";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 export default function HomeTab() {
-  const data = [];
+const bottomTabBarHeight = useBottomTabBarHeight()
+  const {data:shortPosts} = useShortPostQuery({queryKey:postQueryKeys.shortPosts.all})
+  const insets = useSafeAreaInsets()
+
+  const renderItem:ListRenderItem<ShortPost | OptimisticShortPost>  = (info)=>{
+    const post = info.item
+    const isOptimistic = isOptimisticShortPost(post)
+    if(!isOptimistic){
+      return <FeedShortPost {...post} key={post.id}/>
+    }else {
+      return null
+    }
+    
+  }
 
   return (
-    <View style={styles.container}>
-      <FlashList />
+    <View style={{...container, paddingTop:insets.top,}}>
+      <FlashList data={shortPosts} renderItem={renderItem} ItemSeparatorComponent={()=><View style={{height:10}}/>} ListFooterComponent={<View style={{height:bottomTabBarHeight, width:'100%'}}/>} estimatedItemSize={30}/>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
+const container:ViewStyle = {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
-  },
-});
+    height:'100%',
+    width:'100%', 
+  }
+

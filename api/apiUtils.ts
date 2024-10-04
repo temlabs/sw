@@ -1,4 +1,29 @@
 import { ErrorResponse } from "./apiTypes";
+import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
+
+async function getAuthToken() {
+    try {
+      // Get the current authenticated user
+      const user = await getCurrentUser();
+      
+      // Fetch the user's session
+      const session = await fetchAuthSession();
+      
+      // Extract the access token
+      const token = session.tokens?.accessToken;
+  
+      if (!token) {
+        throw new Error('No access token found');
+      }
+  
+      return token.toString();
+    } catch (error) {
+      console.error('Error fetching auth token:', error);
+      throw error;
+    }
+  }
+
+
 
 export const isErrorResponse = (
   response: Object
@@ -29,17 +54,29 @@ export const throwApiError = (res: Object, callbackName: string) => {
 export const makeRequest = async <T = Object>(
   method: RequestInit["method"],
   endpoint: string,
-  body?: Object
+  options: {
+    body?:Object, queryParams?:Object, isAuthenticated?:boolean
+  }
 ) => {
   const url = new URL(
     endpoint,
     "https://sheerwonder-backend-production.up.railway.app/"
   );
-  const jsonData = JSON.stringify(body);
-
-  const headers = {
+  const jsonData = JSON.stringify(options.body);
+  const searchParams = new URLSearchParams();
+  options.queryParams && Object.entries(options.queryParams).forEach(([key, value]) => {
+    searchParams.append(key, value.toString());
+  });
+  
+  const defaultHeader = {
     "Content-Type": "application/json",
-  };
+  }
+
+  const token = options.isAuthenticated ? await getAuthToken() : undefined
+
+  
+  const headers = token ? {...defaultHeader, 'Authorization': `Bearer ${token}`} : defaultHeader;
+
 
   const fetchOptions = {
     method,

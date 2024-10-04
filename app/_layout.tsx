@@ -8,6 +8,9 @@ import { View, ViewStyle } from "react-native";
 import { enableFreeze } from "react-native-screens";
 import { Amplify } from "aws-amplify";
 import amplifyconfig from "@/auth/amplify/amplifyConfiguration.json";
+import { useAuthStatus } from "@/auth/useAuthStatus";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/cache/config";
 enableFreeze(false);
 Amplify.configure(amplifyconfig);
 
@@ -23,19 +26,22 @@ export default function RootLayout() {
     "Sora-Thin": require("@/assets/fonts/Sora-Thin.ttf"),
   });
 
+  const {authStatus} = useAuthStatus()
   const isAuthenticated = true;
+  
 
   useEffect(() => {
-    if (fontsLoaded && isAuthenticated) {
+    if (fontsLoaded && authStatus==='AUTHENTICATED') {
       router.replace("/main");
     }
-  }, [fontsLoaded, isAuthenticated]);
+  }, [fontsLoaded, authStatus]);
 
   if (!fontsLoaded) {
     return null; // or a loading screen
   }
 
   return (
+    <QueryClientProvider client={queryClient}>
     <View
       style={{
         flex: 1,
@@ -70,6 +76,7 @@ export default function RootLayout() {
         />
       </Stack>
     </View>
+    </QueryClientProvider>
   );
 }
 

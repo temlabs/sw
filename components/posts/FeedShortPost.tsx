@@ -1,5 +1,5 @@
 import React from "react";
-import { ShortPost } from "./types";
+
 import { View, Text, ViewStyle, TextStyle } from "react-native";
 import { Image, ImageStyle } from "expo-image";
 import { spacing } from "@/theme/spacing";
@@ -9,9 +9,11 @@ import { UpvoteButton } from "../buttons/UpvoteButton";
 import { ReplyButton } from "../buttons/ReplyButton";
 import { BookmarkButton } from "../buttons/BookmarkButton";
 import { typography } from "@/theme/typography";
+import { ShortPost } from "@/posts/types";
 
-export function FeedPost(post: ShortPost) {
+export function FeedShortPost(post: ShortPost) {
   const postTime = isoDateToFeedDate(post.createdAt);
+  
 
   return (
     <View style={postContainerStyle}>
@@ -22,16 +24,16 @@ export function FeedPost(post: ShortPost) {
       <View style={contentColumnStyle}>
         <View style={headerContainerStyle}>
           <View style={titleContainerStyle}>
-            <Text>{post.displayName}</Text>
-            <Text>{post.username}</Text>
+            <Text style={displayNameStyle}>{post.displayName}</Text>
+            <Text style={usernameStyle}>@{post.username}</Text>
           </View>
-          <Text>{postTime}</Text>
+          <Text style={postTimeStyle}>{postTime}</Text>
         </View>
         <View style={contentContainerStyle}>
           <Text style={postTextStyle}>{post.text}</Text>
           {/* {track goes here} */}
         </View>
-        <View style={bottomBarContainerStyle}>
+        {/* <View style={bottomBarContainerStyle}>
           <View style={leftBarStyle}>
             <UpvoteButton />
             <ReplyButton onPress={() => {}} />
@@ -39,7 +41,7 @@ export function FeedPost(post: ShortPost) {
           <View style={rightBarStyle}>
             <BookmarkButton onPress={() => {}} />
           </View>
-        </View>
+        </View> */}
       </View>
     </View>
   );
@@ -48,6 +50,7 @@ export function FeedPost(post: ShortPost) {
 const postContainerStyle: ViewStyle = {
   flexDirection: "row",
   padding: spacing.m,
+  paddingHorizontal: spacing.l,
   gap: spacing.m,
   width: "100%",
 };
@@ -57,24 +60,28 @@ const imageColumnStyle: ViewStyle = {
 };
 
 const imageStyle: ImageStyle = {
-  height: 20,
-  width: 20,
-  borderRadius: 10,
+  height: 30,
+  width: 30,
+  borderRadius: 15,
   backgroundColor: colors.background.secondary,
 };
 
-const contentColumnStyle: ViewStyle = {};
+const contentColumnStyle: ViewStyle = {gap:spacing.m, flexGrow:1};
 
 const headerContainerStyle: ViewStyle = {
   flexDirection: "row",
   justifyContent: "space-between",
   alignItems: "flex-start",
-  flexGrow: 1,
+
+  // backgroundColor:'blue'
 };
 
 const titleContainerStyle: ViewStyle = {
-  flexDirection: "column",
-  gap: spacing.s,
+  flexDirection: "row",
+  flexWrap:'wrap',
+  gap: spacing.xs,
+  alignItems:'center'
+
 };
 
 const contentContainerStyle: ViewStyle = {
@@ -94,6 +101,10 @@ const leftBarStyle: ViewStyle = {
 const rightBarStyle: ViewStyle = {};
 
 const postTextStyle: TextStyle = {
-  ...typography.medium,
+  ...typography.small,
   color: colors.text.primary,
 };
+
+const displayNameStyle:TextStyle = {...typography.medium, color:colors.text.primary}
+const usernameStyle:TextStyle = {...typography.small, color:colors.text.secondary}
+const postTimeStyle:TextStyle = {...typography.small, color: colors.text.secondary}
