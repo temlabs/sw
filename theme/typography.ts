@@ -19,9 +19,9 @@ const h2: TextStyle = {
 } as const;
 
 const h3: TextStyle = {
-  fontFamily: "Sora-SemiBold",
+  fontFamily: "Sora-Medium",
   fontSize: 16,
-  fontWeight: "700",
+  fontWeight: "600",
 } as const;
 
 const h4: TextStyle = {
@@ -38,7 +38,7 @@ const medium: TextStyle = {
 const small: TextStyle = {
   fontFamily: "Sora-Light",
   fontSize: 12,
-  fontWeight: "700",
+  fontWeight: "500",
 } as const;
 
 const xsmall: TextStyle = {

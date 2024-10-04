@@ -1,5 +1,11 @@
-import React from "react";
-import { View, Text, ViewStyle, TouchableHighlight } from "react-native";
+import React, { useLayoutEffect } from "react";
+import {
+  View,
+  Text,
+  ViewStyle,
+  TouchableHighlight,
+  ActivityIndicator,
+} from "react-native";
 import { ButtonProps } from "./types";
 import { typography } from "@/theme/typography";
 import { colors } from "@/theme/colors";
@@ -18,7 +24,11 @@ export function PrimaryButton(
       hitSlop={10}
     >
       <View style={container}>
-        <Text style={{ ...typography.h4, color: "black" }}>{props.text}</Text>
+        {props.isLoading ? (
+          <ActivityIndicator color={"black"} />
+        ) : (
+          <Text style={{ ...typography.h4, color: "black" }}>{props.text}</Text>
+        )}
       </View>
     </TouchableHighlight>
   );
@@ -30,6 +40,7 @@ const outerContainer: ViewStyle = {
   justifyContent: "center",
   alignItems: "center",
   overflow: "hidden",
+  height: (typography.h4.fontSize ?? 20) * 3.2,
 };
 
 const container: ViewStyle = {

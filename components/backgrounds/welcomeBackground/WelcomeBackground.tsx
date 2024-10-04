@@ -31,11 +31,11 @@ import {
 import { createNoise2D } from "../../graphics/functions";
 import { Href, usePathname } from "expo-router";
 
-const paths: Href[] = ["/", "/signUp", "/logIn"];
-const color1 = [black_500, "red", "cyan"];
-const color2 = [black_300, "green", "red"];
-const color3 = [white_0, "yellow", "blue"];
-const color4 = [black_500, "blue", "green"];
+const paths: Href[] = ["/", "/signUp", "/logIn", "/confirmSignUp"];
+const color1 = [black_500, "red", "cyan", "orange"];
+const color2 = [black_300, "green", "red", "purple"];
+const color3 = [white_0, "yellow", "blue", "white"];
+const color4 = [black_500, "blue", "green", "green"];
 const withSpringOptions = { stiffness: 100, damping: 10 };
 const withSpringColorOptions = { mass: 0.6 };
 

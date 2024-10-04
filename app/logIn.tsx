@@ -6,7 +6,7 @@ import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 import { signIn } from "aws-amplify/auth";
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
   Keyboard,
@@ -25,7 +25,10 @@ import {
 
 export default function LogIn() {
   const insets = useSafeAreaInsets();
-  const [username, setUsername] = useState("");
+  const { initialUsername = "" } = useLocalSearchParams();
+  const [username, setUsername] = useState<string>(
+    typeof initialUsername === "string" ? initialUsername : ""
+  );
   const [password, setPassword] = useState("");
 
   const handleLogIn = async () => {
@@ -73,7 +76,7 @@ export default function LogIn() {
             <TextInput
               label=""
               placeholder="Password"
-              placeholderTextColor={'grey'}
+              placeholderTextColor={"grey"}
               value={password}
               autoCapitalize="none"
               secureTextEntry={true}
@@ -112,6 +115,9 @@ const inputContainerStyle: ViewStyle = {
   // gap: spacing.s,
 };
 
-const titleStyle:TextStyle = {
-...typography.h3, color:colors.text.primary, alignSelf:'center', opacity:0.5
-}
+const titleStyle: TextStyle = {
+  ...typography.h3,
+  color: colors.text.primary,
+  alignSelf: "center",
+  opacity: 0.5,
+};

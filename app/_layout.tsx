@@ -35,8 +35,6 @@ export default function RootLayout() {
     return null; // or a loading screen
   }
 
-  
-
   return (
     <View
       style={{
@@ -66,6 +64,10 @@ export default function RootLayout() {
         <Stack.Screen name={"index"} options={{ headerShown: false }} />
         <Stack.Screen name={"signUp"} options={{ title: "Sign up" }} />
         <Stack.Screen name={"logIn"} options={{ title: "Log in" }} />
+        <Stack.Screen
+          name={"confirmSignUp"}
+          options={{ title: "Finish signing up" }}
+        />
       </Stack>
     </View>
   );

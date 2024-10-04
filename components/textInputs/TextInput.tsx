@@ -1,6 +1,7 @@
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
+import { TextAlign } from "@shopify/react-native-skia";
 import { BlurView } from "expo-blur";
 import React, { useState } from "react";
 import {
@@ -26,16 +27,16 @@ interface Props extends Omit<TextInputProps, "style"> {
   leadingIcon?: React.ReactNode;
   errorText?: string;
 }
-const withSpringOptions:WithSpringConfig = { mass: 0.1, stiffness:10 };
+const withSpringOptions: WithSpringConfig = { mass: 0.1, stiffness: 10 };
 
 export function TextInput({ label, ...props }: Props) {
   const borderColor = useSharedValue<string>(colors.border.inputInactive);
-  const borderWidth = useSharedValue<number>(0)
+  const borderWidth = useSharedValue<number>(0);
 
   const animatedBorderStyle = useAnimatedStyle(() => {
     return {
       borderColor: borderColor.value,
-      borderWidth:1
+      borderWidth: 1,
       // borderWidth:borderWidth.value
     };
   });
@@ -45,10 +46,7 @@ export function TextInput({ label, ...props }: Props) {
       colors.border.inputActive,
       withSpringOptions
     );
-    borderWidth.value = withSpring(
-      1,
-      withSpringOptions
-    );
+    borderWidth.value = withSpring(1, withSpringOptions);
     props.onFocus?.(e);
   };
 
@@ -57,29 +55,27 @@ export function TextInput({ label, ...props }: Props) {
       colors.border.inputInactive,
       withSpringOptions
     );
-    borderWidth.value = withSpring(
-      0,
-      withSpringOptions
-    );
+    borderWidth.value = withSpring(0, withSpringOptions);
     props.onBlur?.(e);
   };
 
   return (
     <View style={containerStyle}>
       <Text style={labelStyle}>{label}</Text>
-      <View style={{ gap: spacing.xs, alignItems:"center" }}>
+      <View style={{ gap: spacing.xs, alignItems: "center" }}>
         <Animated.View style={[inputContainerStyle, animatedBorderStyle]}>
           <BlurView intensity={100} tint="prominent" style={blurViewStyle} />
           <View style={innerContainerStyle}>
-          {props.leadingIcon}
-          <RNTextInput
-            {...props}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            cursorColor={colors.neutral[400]}
-            style={textInputStyle}
-            placeholderTextColor={'grey'}
-          />
+            {props.leadingIcon}
+
+            <RNTextInput
+              {...props}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              cursorColor={colors.neutral[400]}
+              style={textInputStyle}
+              placeholderTextColor={"grey"}
+            />
           </View>
         </Animated.View>
         {props.errorText && (
@@ -101,12 +97,11 @@ const inputContainerStyle: ViewStyle = {
   borderRadius: 40,
   width: "100%",
   overflow: "hidden",
-  padding: spacing.m,
+
   flexDirection: "row",
   justifyContent: "flex-start",
   alignItems: "flex-start",
   gap: spacing.xs,
-
 };
 
 const blurViewStyle: ViewStyle = {
@@ -120,21 +115,22 @@ const blurViewStyle: ViewStyle = {
 
 const textInputStyle: TextStyle = {
   // width: "100%",
-  flex:1,
+  flex: 1,
   ...typography.medium,
   color: colors.text.primary,
+  padding: spacing.m,
 };
 
 const labelStyle: TextStyle = {
   ...typography.medium,
   color: colors.text.primary,
-  opacity:0.8
+  opacity: 0.8,
 };
 
 const containerStyle: ViewStyle = {
   width: "100%",
   gap: spacing.m - spacing.s,
-  alignItems:"center"
+  alignItems: "center",
 };
 
 const innerContainerStyle: ViewStyle = {

@@ -1,32 +1,36 @@
-import { LoginParams, SignUpParams, SignUpResponse } from "./types";
+import { makeRequest } from "@/api/apiUtils";
+import {
+  ConfirmSignUpParams,
+  SignUpParams,
+  SignUpResponse,
+  ConfirmSignUpResponse,
+} from "./types";
 
-export const signUp = async (
-  signUpParams: SignUpParams
-): Promise<{ sessionToken: string; sessionJwt: string }> => {
-  const url = new URL(
-    "signUp",
-    "https://sheerwonder-backend-production.up.railway.app/"
-  );
-
-  const jsonData = JSON.stringify(signUpParams);
-
-  const headers = {
-    "Content-Type": "application/json",
-  };
-
-  const fetchOptions = {
-    method: "POST",
-    headers: headers,
-    body: jsonData,
-  };
-
+export const signUp = async (signUpParams: SignUpParams) => {
   try {
-    const res = await fetch(url, fetchOptions);
-    const resJson = (await res.json()) as unknown as SignUpResponse;
-
+    const resJson = await makeRequest<SignUpResponse>(
+      "POST",
+      "signUp",
+      signUpParams
+    );
     return resJson;
   } catch (error) {
     console.debug(error);
+    throw error;
   }
-  return { sessionJwt: "", sessionToken: "" };
+};
+
+export const confirmSignUp = async (
+  confirmSignUpParams: ConfirmSignUpParams
+) => {
+  try {
+    const resJson = await makeRequest<ConfirmSignUpResponse>(
+      "POST",
+      "confirmSignUp",
+      confirmSignUpParams
+    );
+    return resJson;
+  } catch (error) {
+    throw error;
+  }
 };
