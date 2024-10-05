@@ -15,7 +15,7 @@ export default function MainTabsLayout() {
       sceneContainerStyle={{
         backgroundColor: "transparent",
       }}
-      
+    
       screenOptions={{
         tabBarStyle: {
           backgroundColor: "transparent",
@@ -23,6 +23,7 @@ export default function MainTabsLayout() {
           elevation: 0,
           paddingVertical:spacing.s,
           borderTopColor: colors.border.bottomTab,
+        
          
         },
         tabBarActiveTintColor: colors.primary,

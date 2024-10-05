@@ -28,6 +28,9 @@ export interface CreateShortPostBody {
     username: User['username'];
     avatarUrl: User['avatarUrl'];
     displayName: User['displayName'];
+    // need track artist
+    // track duration
+    // track id
   }
 
 export interface OptimisticShortPost {

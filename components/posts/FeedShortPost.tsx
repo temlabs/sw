@@ -10,10 +10,24 @@ import { ReplyButton } from "../buttons/ReplyButton";
 import { BookmarkButton } from "../buttons/BookmarkButton";
 import { typography } from "@/theme/typography";
 import { ShortPost } from "@/posts/types";
+import { TrackCard } from "../trackCard/TrackCard";
 
 export function FeedShortPost(post: ShortPost) {
   const postTime = isoDateToFeedDate(post.createdAt);
-  
+  const trackCardProps = {
+    postId:post.id,
+    artwork:post.artwork,
+    name:post.name,
+    spotifyId:post.spotifyId,
+    timeIn:post.timeIn,
+    timeOut:post.timeOut,
+  // artist // duration // id needed
+  artist:'tem',
+  duration:60000,
+  id:353
+
+  }
+
 
   return (
     <View style={postContainerStyle}>
@@ -32,16 +46,17 @@ export function FeedShortPost(post: ShortPost) {
         <View style={contentContainerStyle}>
           <Text style={postTextStyle}>{post.text}</Text>
           {/* {track goes here} */}
+          <TrackCard  {...trackCardProps}/>
         </View>
-        {/* <View style={bottomBarContainerStyle}>
+        <View style={bottomBarContainerStyle}>
           <View style={leftBarStyle}>
-            <UpvoteButton />
-            <ReplyButton onPress={() => {}} />
+            <UpvoteButton count={post.upvoteCount} />
+            <ReplyButton onPress={() => {}} count={post.replyCount} />
           </View>
           <View style={rightBarStyle}>
-            <BookmarkButton onPress={() => {}} />
+            <BookmarkButton onPress={() => {}} count={post.saveCount} />
           </View>
-        </View> */}
+        </View>
       </View>
     </View>
   );
@@ -91,14 +106,22 @@ const contentContainerStyle: ViewStyle = {
 const bottomBarContainerStyle: ViewStyle = {
   flexDirection: "row",
   justifyContent: "space-between",
-  width: "100%",
+
   padding: spacing.s,
 };
 
 const leftBarStyle: ViewStyle = {
   gap: spacing.s,
+  flexDirection:'row',
+  justifyContent:'space-between',
+  flexShrink:1
+
 };
-const rightBarStyle: ViewStyle = {};
+const rightBarStyle: ViewStyle = {
+  // backgroundColor:'blue'
+};
+
+
 
 const postTextStyle: TextStyle = {
   ...typography.small,

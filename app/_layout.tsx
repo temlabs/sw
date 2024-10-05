@@ -4,7 +4,7 @@ import { typography } from "@/theme/typography";
 import { useFonts } from "expo-font";
 import { router, Stack, usePathname } from "expo-router";
 import React, { useEffect } from "react";
-import { View, ViewStyle } from "react-native";
+import { StatusBar, View, ViewStyle } from "react-native";
 import { enableFreeze } from "react-native-screens";
 import { Amplify } from "aws-amplify";
 import amplifyconfig from "@/auth/amplify/amplifyConfiguration.json";
@@ -51,7 +51,7 @@ export default function RootLayout() {
       <View style={welcomeBackgroundContainerStyle}>
         <WelcomeBackground />
       </View>
-
+<StatusBar barStyle={'light-content'}/>
       <Stack
         screenOptions={{
           headerShown: false,

@@ -4,6 +4,7 @@ export interface Track {
     duration: number;
     name: string;
     artwork: string;
+    id:number;// needs updating on be i think
   }
 
   export interface CreateTrackParams {

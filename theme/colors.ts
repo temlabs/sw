@@ -31,6 +31,8 @@ export const colors = {
     primary: white_0,
     primaryActive: white_200,
     secondary: "#f0bebb",
+    tertiary:black_300
+
   },
   neutral: {
     100: "#000000",

@@ -41,6 +41,12 @@ const small: TextStyle = {
   fontWeight: "500",
 } as const;
 
+const smallBold: TextStyle = {
+  fontFamily: "Sora-Regular",
+  fontSize: 12,
+  fontWeight: "500",
+} as const;
+
 const xsmall: TextStyle = {
   fontFamily: "Sora-ExtraLight",
   fontSize: 10,
@@ -55,5 +61,6 @@ export const typography = {
   h4,
   medium,
   small,
+  smallBold,
   xsmall,
 } as const;
