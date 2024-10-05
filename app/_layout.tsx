@@ -32,7 +32,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (fontsLoaded && authStatus==='AUTHENTICATED') {
-      router.replace("/main");
+      router.navigate("/main");
     }
   }, [fontsLoaded, authStatus]);
 
@@ -74,6 +74,7 @@ export default function RootLayout() {
           name={"confirmSignUp"}
           options={{ title: "Finish signing up" }}
         />
+         <Stack.Screen name={"spotify"} options={{ title: "Sign up", presentation:'modal', animation:'fade_from_bottom'}} />
       </Stack>
     </View>
     </QueryClientProvider>

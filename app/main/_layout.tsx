@@ -14,6 +14,8 @@ export default function MainRootLayout() {
           headerShown: false,
         }}
       />
+      
+    
     </Stack>
   );
 }

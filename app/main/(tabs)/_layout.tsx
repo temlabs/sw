@@ -2,15 +2,25 @@ import { CommunityIcon } from "@/components/icons/CommunityIcon";
 import { DiscoverIcon } from "@/components/icons/DiscoverIcon";
 import { HomeIcon } from "@/components/icons/HomeIcon";
 import { ProfileIcon } from "@/components/icons/ProfileIcon";
+import { SpotifyPill } from "@/components/SpotifyPill";
+import { useSpotifyStatus } from "@/spotify/useSpotifyStatus";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { typography } from "@/theme/typography";
 import { BlurView } from "expo-blur";
 import { Tabs } from "expo-router";
-import { View } from "react-native";
+import { useState } from "react";
+import { View, ViewStyle } from "react-native";
+
 
 export default function MainTabsLayout() {
+  const [tabBarHeight, setTabBarHeight] = useState<number|undefined>()
+
+  const {text, onPress} = useSpotifyStatus()
+
+
   return (
+    <>
     <Tabs
       sceneContainerStyle={{
         backgroundColor: "transparent",
@@ -33,7 +43,7 @@ export default function MainTabsLayout() {
         headerTitleStyle: typography.h2,
         headerTransparent: true,
         tabBarBackground: () => (
-          <BlurView  style={{ width:'100%', height:'100%'}} tint="dark" intensity={40} />
+          <BlurView  style={{ width:'100%', height:'100%'}} tint="dark" intensity={40} onLayout={e=>setTabBarHeight(e.nativeEvent.layout.height)} />
         ),
       }}
     >
@@ -75,5 +85,14 @@ export default function MainTabsLayout() {
         }}
       />
     </Tabs>
+    <View style={{...spotifyPillContainer, bottom:(tabBarHeight??0)+spacing.s}}><SpotifyPill text={text} onPress={onPress}/></View>
+    </>
   );
+}
+
+
+const spotifyPillContainer: ViewStyle = {
+  position:'absolute',
+  bottom:0,
+  alignSelf:'center'
 }
