@@ -25,8 +25,6 @@ export function TrackCardBackground({ url }: Props) {
   const darkContrastAdjusted = darkenForContrast(dark);
   const lightContrastAdjusted = darkenForContrast(light);
 
-  console.debug({ darkContrastAdjusted, lightContrastAdjusted });
-
   return (
     <Svg
       height="100%"

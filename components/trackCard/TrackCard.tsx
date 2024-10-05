@@ -1,7 +1,7 @@
 import { ShortPost } from '@/posts/types';
 import { spacing } from '@/theme/spacing';
 import { Track } from '@/tracks/types';
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   ViewStyle,
   View,
@@ -13,16 +13,24 @@ import { Image, ImageStyle } from 'expo-image';
 import { typography } from '@/theme/typography';
 import { colors } from '@/theme/colors';
 import { TrackCardBackground } from './TrackCardBackground';
+import { ModalContext } from '../modal/ModalContextProvider';
+import { TrackCardOptions } from './TrackCardOptions';
 
 interface Props extends Track {
   postId: ShortPost['id'];
 }
 
 export function TrackCard(props: Track) {
+  const { setModalContent } = useContext(ModalContext);
+
+  const presentOptions = () => {
+    setModalContent(<TrackCardOptions {...props} />);
+  };
+
   return (
     <TouchableHighlight
       underlayColor={'rgba(0,0,0,0.3)'}
-      onLongPress={() => console.debug('long press')}
+      onLongPress={presentOptions}
     >
       <View style={containerStyle}>
         <TrackCardBackground url={props.artwork} />
