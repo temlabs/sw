@@ -65,19 +65,22 @@ const containerStyle: ViewStyle = {
 };
 
 const imageStyle: ImageStyle = {
-  width: 30,
-  height: 30,
+  width: 70,
+  height: 70,
 };
 
 const headerContainerStyle: ViewStyle = {
   flexDirection: 'row',
   justifyContent: 'space-between',
-  padding: spacing.m,
+  paddingHorizontal: spacing.m,
+  alignItems: 'flex-start',
 };
 
 const titleContainerStyle: ViewStyle = {
   justifyContent: 'flex-start',
   gap: 0,
+  flexShrink: 1,
+  paddingVertical: spacing.m,
 };
 
 const trackName: TextStyle = {
@@ -105,7 +108,7 @@ const buttonWithBorder: ViewStyle = {
 };
 
 const buttonTitle: TextStyle = {
-  ...typography.smallBold,
+  ...typography.smallMedium,
   color: colors.text.primary,
 };
 

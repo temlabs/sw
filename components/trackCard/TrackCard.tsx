@@ -21,6 +21,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import { TrackPlayhead } from './TrackPlayhead';
 
 interface Props extends Track {
   postId: ShortPost['id'];
@@ -71,10 +72,12 @@ export function TrackCard(props: Track) {
     <Animated.View style={animatedStyle} {...panResponder.panHandlers}>
       <TouchableHighlight
         underlayColor={'rgba(0,0,0,0.3)'}
+        onPress={() => {}}
         // onLongPress={presentOptions}
       >
         <View style={containerStyle}>
           <TrackCardBackground url={props.artwork} />
+          <TrackPlayhead />
           <View style={innerContainerStyle}>
             <View style={imageColumnStyle}>
               <Image
@@ -96,7 +99,7 @@ export function TrackCard(props: Track) {
 
 const containerStyle: ViewStyle = {
   //   height: 50,
-  borderRadius: 10,
+  borderRadius: 5,
   //   borderCurve: 'circular',
   backgroundColor: 'blue',
   flexGrow: 1,
