@@ -51,11 +51,18 @@ export function Modal({
 
   const backgroundPan = Gesture.Pan()
     .onUpdate(e => {
+      if (!blocking.value) {
+        return;
+      }
       offsetY.value = e.translationY - insets.bottom;
     })
     .onEnd(e => {
+      if (!blocking.value) {
+        return;
+      }
       if (e.translationY > (modalHeight.value + insets.bottom) * 0.5) {
         //close
+        blocking.value = false;
         offsetY.value = withSpring(
           modalHeight.value + insets.bottom,
           {
@@ -72,24 +79,32 @@ export function Modal({
 
   const backgroundTap = Gesture.Tap()
     .onStart(e => {
+      blocking.value = false;
       collapseModal();
     })
     .blocksExternalGesture(backgroundPan);
 
   const contentPan = Gesture.Pan()
     .onUpdate(e => {
+      if (!blocking.value) {
+        return;
+      }
       offsetY.value = e.translationY - insets.bottom;
     })
     .onEnd(e => {
+      if (!blocking.value) {
+        return;
+      }
       if (e.translationY > (modalHeight.value + insets.bottom) * 0.5) {
         //close
+        blocking.value = false;
         offsetY.value = withSpring(
           modalHeight.value + insets.bottom,
           {
             ...withSpringConfig,
             velocity: e.velocityY,
           },
-          f => f && collapseModal(),
+          f => collapseModal(),
         );
       } else {
         // bounce back

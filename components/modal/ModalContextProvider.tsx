@@ -40,7 +40,7 @@ export function ModalContextProvider(props: PropsWithChildren) {
     content => {
       if (content) {
         const measurement = measure(modalRef);
-        console.debug('measurement', measurement);
+
         hiddenOffsetY.value = measurement?.height ?? screenHeight;
         offsetY.value = measurement?.height ?? screenHeight;
         offsetY.value = withSpring(0 - insets.bottom, withSpringConfig);
