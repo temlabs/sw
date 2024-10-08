@@ -10,7 +10,7 @@ import { WebView, WebViewMessageEvent } from 'react-native-webview';
 export function SpotifyPlayer() {
   const webViewRef = useRef<WebView>(null);
   const authCode = useGlobalStore(state => state.authCode);
-  const { data } = useSpotifyTokensQuery(authCode, {
+  const { data, dataUpdatedAt } = useSpotifyTokensQuery(authCode, {
     queryKey: spotifyQueryKeys.tokens,
     enabled: !!authCode,
   });
@@ -40,13 +40,13 @@ export function SpotifyPlayer() {
       console.debug('injecting');
       webViewRef.current?.injectJavaScript(injectedJavaScript);
     }
-  }, [data?.accessToken]);
+  }, [data?.accessToken, dataUpdatedAt]);
 
   return (
     <>
       {!!data?.accessToken ? (
         <WebView
-          key={20}
+          key={2}
           autoManageStatusBarEnabled={true}
           allowsProtectedMedia={true}
           mediaPlaybackRequiresUserAction={false}

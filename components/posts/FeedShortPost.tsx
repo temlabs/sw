@@ -11,8 +11,11 @@ import { BookmarkButton } from '../buttons/BookmarkButton';
 import { typography } from '@/theme/typography';
 import { ShortPost } from '@/posts/types';
 import { TrackCard } from '../trackCard/TrackCard';
+import { useSpotifyPlayback } from '@/spotify/hooks/useSpotifyPlayback';
 
 export function FeedShortPost(post: ShortPost) {
+  const { isPlaying, play, pause } = useSpotifyPlayback();
+
   const postTime = isoDateToFeedDate(post.createdAt);
   const trackCardProps = {
     postId: post.id,
@@ -23,6 +26,8 @@ export function FeedShortPost(post: ShortPost) {
     timeOut: post.timeOut,
     artist: post.artist,
     duration: post.duration,
+    isPlaying: isPlaying(post),
+    onPress: isPlaying(post) ? () => pause(post) : () => play(post),
   };
 
   return (

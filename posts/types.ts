@@ -31,14 +31,20 @@ export interface ShortPost {
   duration: Track['duration'];
 }
 
-export interface OptimisticShortPost {
-  userId: User['id'];
-  text: string;
-  track: CreateTrackParams;
-  time_in: number;
-  time_out: number;
-  extId: string;
-}
+export interface OptimisticShortPost
+  extends Omit<
+    ShortPost,
+    'id' | 'createdAt' | 'saveCount' | 'replyCount' | 'upvoteCount'
+  > {}
+
+// export interface OptimisticShortPost {
+//   userId: User['id'];
+//   text: string;
+//   track: CreateTrackParams;
+//   time_in: number;
+//   time_out: number;
+//   extId: string;
+// }
 
 export type ShortPostQueryKey =
   | typeof postQueryKeys.shortPosts.all

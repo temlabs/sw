@@ -56,7 +56,7 @@ export const playTrack = async (
   await getError(resJson);
 };
 
-export const pause = async (
+export const pauseTrack = async (
   accessToken: string,
   deviceId: string,
 ): Promise<void> => {

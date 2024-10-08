@@ -72,6 +72,6 @@ window.onSpotifyWebPlaybackSDKReady = () => {
     })
 
 };
-
+return true
 
 `;

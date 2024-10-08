@@ -2,23 +2,31 @@ import { OptimisticShortPost, ShortPost } from '@/posts/types';
 import { Track } from '@/tracks/types';
 import { StateCreator } from 'zustand';
 
+type Intent =
+  | {
+      post: ShortPost | OptimisticShortPost;
+      intent: 'PLAY' | 'PAUSE';
+      intentStartTime?: number;
+    }
+  | undefined;
+
+type CurrentlyPlayingOptions =
+  | {
+      post: ShortPost | OptimisticShortPost;
+      startTime?: number;
+      startTimestamp?: number;
+    }
+  | undefined;
+
 export interface SpotifySlice {
   authCode: string;
   setAuthCode: (authCode: string) => void;
   deviceId: string;
   setDeviceId: (deviceId: string) => void;
-  currentlyPlaying:
-    | {
-        post: ShortPost | OptimisticShortPost;
-        startTime: number;
-        startTimestamp: number;
-      }
-    | undefined;
-  setCurrentlyPlaying: (opts?: {
-    post: ShortPost | OptimisticShortPost;
-    startTimestamp: number;
-    startTime?: number;
-  }) => void;
+  currentlyPlaying: CurrentlyPlayingOptions;
+  setCurrentlyPlaying: (opts: CurrentlyPlayingOptions) => void;
+  setIntent: (intent: Intent) => void;
+  intent: Intent;
 }
 
 export const createSpotifySlice: StateCreator<SpotifySlice> = set => ({
@@ -27,14 +35,8 @@ export const createSpotifySlice: StateCreator<SpotifySlice> = set => ({
   deviceId: '',
   setDeviceId: (deviceId: string) => set(state => ({ ...state, deviceId })),
   currentlyPlaying: undefined,
-  setCurrentlyPlaying: opts => {
-    const newState = opts
-      ? {
-          ...opts,
-          startTime: opts.startTime ?? Date.now(),
-        }
-      : undefined;
-
-    return set(state => ({ ...state, currentlyPlaying: newState }));
-  },
+  setCurrentlyPlaying: newCurrentlyPlaying =>
+    set(state => ({ ...state, ...newCurrentlyPlaying })),
+  setIntent: newIntent => set(state => ({ ...state, intent: newIntent })),
+  intent: undefined,
 });

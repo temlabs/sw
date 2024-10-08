@@ -22,9 +22,12 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import { TrackPlayhead } from './TrackPlayhead';
+import { useSpotifyPlayback } from '@/spotify/hooks/useSpotifyPlayback';
 
 interface Props extends Omit<Track, 'id'> {
   postId: ShortPost['id'];
+  isPlaying?: boolean;
+  onPress: () => Promise<void> | void;
 }
 
 export function TrackCard(props: Props) {
@@ -72,7 +75,7 @@ export function TrackCard(props: Props) {
     <Animated.View style={animatedStyle} {...panResponder.panHandlers}>
       <TouchableHighlight
         underlayColor={'rgba(0,0,0,0.3)'}
-        onPress={() => {}}
+        onPress={props.onPress}
         // onLongPress={presentOptions}
       >
         <View style={containerStyle}>

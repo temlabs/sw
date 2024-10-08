@@ -5,6 +5,11 @@ import { useSpotifyTokensQuery } from './hooks/useSpotifyTokensQuery';
 import { spotifyQueryKeys } from './spotifyQueryKeys';
 
 export function usePlayerWebViewMessage() {
+  const playbackIntent = useGlobalStore(state => state.intent);
+  const setCurrentlyPlaying = useGlobalStore(
+    state => state.setCurrentlyPlaying,
+  );
+  const currentlyPlaying = useGlobalStore(state => state.currentlyPlaying);
   const setSpotifyDeviceId = useGlobalStore(state => state.setDeviceId);
   const authCode = useGlobalStore(state => state.authCode);
   const { data } = useSpotifyTokensQuery(authCode, {
@@ -31,22 +36,24 @@ export function usePlayerWebViewMessage() {
       const playbackState = JSON.parse(
         message.substring('playbackStateChanged'.length).replace(/\\/g, ''),
       );
+      console.log('playback state changed: ', playbackState);
+      if (!playbackIntent) {
+        // playback was initiated by some other source.
+        // we could send a pause command?
+      }
 
-      const newPlayingTrack = {
-        position: playbackState.position,
-        spotifyTrackId: playbackState.track_window.current_track.id,
-        paused: playbackState.paused,
-        startTime: Date.now(),
-      };
-      //   if (
-      //     !!useStore.getState().selectedTrack &&
-      //     playbackStateIsSufficientlyDifferent(
-      //       useStore.getState().playingTrack,
-      //       newPlayingTrack,
-      //     )
-      //   ) {
-      //     setPlayingTrack(newPlayingTrack);
-      //   }
+      if (
+        playbackState.track_window.current_track.id ===
+          playbackIntent?.post.spotifyId &&
+        ((playbackState.paused && playbackIntent?.intent === 'PAUSE') ||
+          (!playbackState.paused && playbackIntent?.intent === 'PLAY'))
+      ) {
+        setCurrentlyPlaying({
+          post: playbackIntent.post,
+          startTime: Date.now(),
+          startTimestamp: playbackState.position,
+        });
+      }
     } catch (error) {
       console.log('playback state message err: ', error);
     }
