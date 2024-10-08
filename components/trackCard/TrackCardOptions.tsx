@@ -14,7 +14,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ModalHandle } from '../modal/ModalHandle';
 import { Image, ImageStyle } from 'expo-image';
 
-interface Props extends Track {}
+interface Props extends Omit<Track, 'id'> {}
 
 export function TrackCardOptions(track: Props) {
   const insets = useSafeAreaInsets();

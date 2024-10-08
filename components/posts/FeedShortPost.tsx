@@ -1,33 +1,29 @@
-import React from "react";
+import React from 'react';
 
-import { View, Text, ViewStyle, TextStyle } from "react-native";
-import { Image, ImageStyle } from "expo-image";
-import { spacing } from "@/theme/spacing";
-import { isoDateToFeedDate } from "@/posts/functions";
-import { colors } from "@/theme/colors";
-import { UpvoteButton } from "../buttons/UpvoteButton";
-import { ReplyButton } from "../buttons/ReplyButton";
-import { BookmarkButton } from "../buttons/BookmarkButton";
-import { typography } from "@/theme/typography";
-import { ShortPost } from "@/posts/types";
-import { TrackCard } from "../trackCard/TrackCard";
+import { View, Text, ViewStyle, TextStyle } from 'react-native';
+import { Image, ImageStyle } from 'expo-image';
+import { spacing } from '@/theme/spacing';
+import { isoDateToFeedDate } from '@/posts/functions';
+import { colors } from '@/theme/colors';
+import { UpvoteButton } from '../buttons/UpvoteButton';
+import { ReplyButton } from '../buttons/ReplyButton';
+import { BookmarkButton } from '../buttons/BookmarkButton';
+import { typography } from '@/theme/typography';
+import { ShortPost } from '@/posts/types';
+import { TrackCard } from '../trackCard/TrackCard';
 
 export function FeedShortPost(post: ShortPost) {
   const postTime = isoDateToFeedDate(post.createdAt);
   const trackCardProps = {
-    postId:post.id,
-    artwork:post.artwork,
-    name:post.name,
-    spotifyId:post.spotifyId,
-    timeIn:post.timeIn,
-    timeOut:post.timeOut,
-  // artist // duration // id needed
-  artist:'tem',
-  duration:60000,
-  id:353
-
-  }
-
+    postId: post.id,
+    artwork: post.artwork,
+    name: post.name,
+    spotifyId: post.spotifyId,
+    timeIn: post.timeIn,
+    timeOut: post.timeOut,
+    artist: post.artist,
+    duration: post.duration,
+  };
 
   return (
     <View style={postContainerStyle}>
@@ -46,7 +42,7 @@ export function FeedShortPost(post: ShortPost) {
         <View style={contentContainerStyle}>
           <Text style={postTextStyle}>{post.text}</Text>
           {/* {track goes here} */}
-          <TrackCard  {...trackCardProps}/>
+          <TrackCard {...trackCardProps} />
         </View>
         <View style={bottomBarContainerStyle}>
           <View style={leftBarStyle}>
@@ -63,15 +59,15 @@ export function FeedShortPost(post: ShortPost) {
 }
 
 const postContainerStyle: ViewStyle = {
-  flexDirection: "row",
+  flexDirection: 'row',
   padding: spacing.m,
   paddingHorizontal: spacing.l,
   gap: spacing.m,
-  width: "100%",
+  width: '100%',
 };
 
 const imageColumnStyle: ViewStyle = {
-  justifyContent: "flex-start",
+  justifyContent: 'flex-start',
 };
 
 const imageStyle: ImageStyle = {
@@ -81,53 +77,67 @@ const imageStyle: ImageStyle = {
   backgroundColor: colors.background.secondary,
 };
 
-const contentColumnStyle: ViewStyle = {gap:spacing.m, flexGrow:1};
+const contentColumnStyle: ViewStyle = {
+  gap: spacing.m,
+  flexGrow: 1,
+  flexShrink: 1,
+  // width: '100%',
+  // overflow: 'hidden',
+};
 
 const headerContainerStyle: ViewStyle = {
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "flex-start",
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'flex-start',
 
   // backgroundColor:'blue'
 };
 
 const titleContainerStyle: ViewStyle = {
-  flexDirection: "row",
-  flexWrap:'wrap',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
   gap: spacing.xs,
-  alignItems:'center'
-
+  alignItems: 'center',
 };
 
 const contentContainerStyle: ViewStyle = {
   gap: spacing.m,
+  justifyContent: 'center',
+  maxWidth: '100%',
+  overflow: 'hidden',
 };
 
 const bottomBarContainerStyle: ViewStyle = {
-  flexDirection: "row",
-  justifyContent: "space-between",
+  flexDirection: 'row',
+  justifyContent: 'space-between',
 
   padding: spacing.s,
 };
 
 const leftBarStyle: ViewStyle = {
   gap: spacing.s,
-  flexDirection:'row',
-  justifyContent:'space-between',
-  flexShrink:1
-
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  flexShrink: 1,
 };
 const rightBarStyle: ViewStyle = {
   // backgroundColor:'blue'
 };
-
-
 
 const postTextStyle: TextStyle = {
   ...typography.small,
   color: colors.text.primary,
 };
 
-const displayNameStyle:TextStyle = {...typography.medium, color:colors.text.primary}
-const usernameStyle:TextStyle = {...typography.small, color:colors.text.secondary}
-const postTimeStyle:TextStyle = {...typography.small, color: colors.text.secondary}
+const displayNameStyle: TextStyle = {
+  ...typography.medium,
+  color: colors.text.primary,
+};
+const usernameStyle: TextStyle = {
+  ...typography.small,
+  color: colors.text.secondary,
+};
+const postTimeStyle: TextStyle = {
+  ...typography.small,
+  color: colors.text.secondary,
+};

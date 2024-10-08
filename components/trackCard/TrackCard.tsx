@@ -23,11 +23,11 @@ import Animated, {
 } from 'react-native-reanimated';
 import { TrackPlayhead } from './TrackPlayhead';
 
-interface Props extends Track {
+interface Props extends Omit<Track, 'id'> {
   postId: ShortPost['id'];
 }
 
-export function TrackCard(props: Track) {
+export function TrackCard(props: Props) {
   const { setModalContent } = useContext(ModalContext);
 
   const presentOptions = () => {
@@ -88,7 +88,9 @@ export function TrackCard(props: Track) {
             </View>
             <View style={titleColumnStyle}>
               <Text style={trackName}>{props.name}</Text>
-              <Text style={artistName}>{props.artist}</Text>
+              <Text numberOfLines={1} ellipsizeMode="tail" style={artistName}>
+                {props.artist}
+              </Text>
             </View>
           </View>
         </View>
@@ -118,8 +120,10 @@ const imageColumnStyle: ViewStyle = {};
 
 const titleColumnStyle: ViewStyle = {
   gap: 0,
-  flexGrow: 1,
   justifyContent: 'space-between',
+  alignItems: 'flex-start',
+  flexGrow: 1,
+  flexShrink: 1,
 };
 
 const trackName: TextStyle = {

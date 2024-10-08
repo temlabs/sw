@@ -89,6 +89,8 @@ export function Modal({
       if (!blocking.value) {
         return;
       }
+      // offsetY.value = e.translationY - insets.bottom;
+      const maxOffset = screenHeight - (modalHeight.value - insets.bottom);
       offsetY.value = e.translationY - insets.bottom;
     })
     .onEnd(e => {

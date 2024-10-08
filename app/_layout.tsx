@@ -15,6 +15,7 @@ import { ModalContextProvider } from '@/components/modal/ModalContextProvider';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 enableFreeze(false);
 Amplify.configure(amplifyconfig);
+global.Buffer = require('buffer').Buffer;
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
