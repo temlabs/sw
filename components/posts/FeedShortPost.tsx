@@ -17,6 +17,13 @@ export function FeedShortPost(post: ShortPost) {
   const { isPlaying, play, pause } = useSpotifyPlayback();
 
   const postTime = isoDateToFeedDate(post.createdAt);
+
+  if (post.spotifyId === '1mqiNO48JAMQllDrRwlLeH') {
+    console.log('isPlaying', {
+      isPlaying: isPlaying(post),
+    });
+  }
+
   const trackCardProps = {
     postId: post.id,
     artwork: post.artwork,
@@ -27,7 +34,9 @@ export function FeedShortPost(post: ShortPost) {
     artist: post.artist,
     duration: post.duration,
     isPlaying: isPlaying(post),
-    onPress: isPlaying(post) ? () => pause(post) : () => play(post),
+    onPress: isPlaying(post)
+      ? async () => await pause(post)
+      : async () => await play(post, post.timeIn),
   };
 
   return (

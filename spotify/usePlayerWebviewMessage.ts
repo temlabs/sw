@@ -12,9 +12,9 @@ export function usePlayerWebViewMessage() {
   const currentlyPlaying = useGlobalStore(state => state.currentlyPlaying);
   const setSpotifyDeviceId = useGlobalStore(state => state.setDeviceId);
   const authCode = useGlobalStore(state => state.authCode);
-  const { data } = useSpotifyTokensQuery(authCode, {
+  const { data } = useSpotifyTokensQuery({
     enabled: !!authCode,
-    queryKey: spotifyQueryKeys.tokens,
+    queryKey: spotifyQueryKeys.tokens(authCode),
   });
   const accessToken = data?.accessToken;
 
@@ -36,7 +36,8 @@ export function usePlayerWebViewMessage() {
       const playbackState = JSON.parse(
         message.substring('playbackStateChanged'.length).replace(/\\/g, ''),
       );
-      console.log('playback state changed: ', playbackState);
+      // console.log('playback state changed: ', playbackState);
+      // console.debug(playbackState.track_window.current_track.id);
       if (!playbackIntent) {
         // playback was initiated by some other source.
         // we could send a pause command?
@@ -48,6 +49,7 @@ export function usePlayerWebViewMessage() {
         ((playbackState.paused && playbackIntent?.intent === 'PAUSE') ||
           (!playbackState.paused && playbackIntent?.intent === 'PLAY'))
       ) {
+        // console.log('setting currently playing');
         setCurrentlyPlaying({
           post: playbackIntent.post,
           startTime: Date.now(),
@@ -55,7 +57,7 @@ export function usePlayerWebViewMessage() {
         });
       }
     } catch (error) {
-      console.log('playback state message err: ', error);
+      // console.log('playback state message err: ', error);
     }
   };
 

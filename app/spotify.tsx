@@ -22,9 +22,9 @@ export default function SpotifyAuth() {
   const uri = (params?.link as string) ?? loginUri;
   const webViewRef = useRef<WebView>(null);
 
-  const { data, error, isError, isFetched } = useSpotifyTokensQuery(authCode, {
+  const { data, error, isError, isFetched } = useSpotifyTokensQuery({
     enabled: !!authCode,
-    queryKey: spotifyQueryKeys.tokens,
+    queryKey: spotifyQueryKeys.tokens(authCode),
   });
 
   const handleLoadRequest: OnShouldStartLoadWithRequest = request => {
@@ -36,7 +36,7 @@ export default function SpotifyAuth() {
       if (code) {
         setAuthCode(code);
       }
-      router.back();
+      // router.back();
       return true;
     }
     if (url.startsWith('https://accounts.spotify.com/en/login?flow')) {

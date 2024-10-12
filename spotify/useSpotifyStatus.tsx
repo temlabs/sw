@@ -10,10 +10,9 @@ import { useSpotifyTokensQuery } from './hooks/useSpotifyTokensQuery';
 export function useSpotifyStatus() {
   const authCode = useGlobalStore(state => state.authCode);
   const { data, error, isError, isFetched, isFetching } = useSpotifyTokensQuery(
-    authCode,
     {
       enabled: !!authCode,
-      queryKey: spotifyQueryKeys.tokens,
+      queryKey: spotifyQueryKeys.tokens(authCode),
     },
   );
   const deviceId = useGlobalStore(state => state.deviceId);
@@ -26,7 +25,7 @@ export function useSpotifyStatus() {
   const openLogoutScreen = () => {
     router.navigate({
       pathname: '/spotify',
-      // params: { link: 'https://accounts.spotify.com/en/login' },
+      params: { link: 'https://accounts.spotify.com/en/login' },
     });
   };
 
@@ -41,9 +40,9 @@ export function useSpotifyStatus() {
       onPress: undefined,
     };
   } else if (!!data?.accessToken && !deviceId) {
-    return { text: 'Looking good...', onPress: undefined };
+    return { text: 'Looking good...', onPress: openLogoutScreen };
   } else if (!!deviceId) {
-    return { text: 'All good! Happy exploring', onPress: undefined };
+    return { text: 'All good! Happy exploring', onPress: openLogoutScreen };
   } else {
     return {
       text: 'Tap here to sign in to Spotify and start listening',

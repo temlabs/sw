@@ -10,8 +10,8 @@ import { WebView, WebViewMessageEvent } from 'react-native-webview';
 export function SpotifyPlayer() {
   const webViewRef = useRef<WebView>(null);
   const authCode = useGlobalStore(state => state.authCode);
-  const { data, dataUpdatedAt } = useSpotifyTokensQuery(authCode, {
-    queryKey: spotifyQueryKeys.tokens,
+  const { data, dataUpdatedAt } = useSpotifyTokensQuery({
+    queryKey: spotifyQueryKeys.tokens(authCode),
     enabled: !!authCode,
   });
   const { onDeviceIdMessage, onPlaybackStateChangeMessage } =
@@ -19,51 +19,56 @@ export function SpotifyPlayer() {
 
   const handleMessage = (e: WebViewMessageEvent) => {
     const message = e.nativeEvent.data;
-    console.debug({ message });
+    // console.debug({ message });
     if (message.startsWith('sheerwondercl')) {
+      console.log('Console log from WebView:', message.slice(14));
+    } else if (message.startsWith('sheerwonderer')) {
+      console.error('Console error from WebView:', message.slice(14));
     } else if (message.startsWith('deviceIdReceived')) {
       onDeviceIdMessage(message);
     } else if (message.startsWith('playbackStateChanged')) {
       onPlaybackStateChangeMessage(message);
     } else {
-      console.log('web view log: ', message);
+      console.log('Web view message:', message);
     }
   };
 
-  const showPlayer = !!data?.accessToken;
+  const injectPlayerScript = () => {
+    if (data?.accessToken && webViewRef.current) {
+      const script = getPlayerScript(data.accessToken);
 
-  console.debug({ showPlayer });
-
-  useEffect(() => {
-    if (data?.accessToken) {
-      const injectedJavaScript = getPlayerScript(data?.accessToken);
-      console.debug('injecting');
-      webViewRef.current?.injectJavaScript(injectedJavaScript);
+      webViewRef.current.injectJavaScript(script);
+      console.log('Injected Spotify player script');
     }
-  }, [data?.accessToken, dataUpdatedAt]);
+  };
+  // useEffect(() => {
+
+  //   if (data?.accessToken) {
+  //     injectPlayerScript();
+  //   }
+  // }, [data?.accessToken]);
 
   return (
     <>
-      {!!data?.accessToken ? (
+      {!!data?.accessToken && (
         <WebView
-          key={2}
-          autoManageStatusBarEnabled={true}
-          allowsProtectedMedia={true}
-          mediaPlaybackRequiresUserAction={false}
-          contentMode="desktop"
-          mixedContentMode="always"
-          forceDarkOn={true}
           ref={webViewRef}
           source={{ uri: 'https://temlabs.github.io/sheerwonder/' }}
           style={webViewStyle}
           onMessage={handleMessage}
-          // injectedJavaScript={injectedJavaScript}
-          onLoadStart={e => console.log('starting load', e.nativeEvent.loading)}
-          onError={e => console.log('encountered error', e)}
-          onLoadEnd={e => console.log('finished load')}
+          onLoadEnd={() => {
+            console.log('WebView loaded, injecting player script');
+            injectPlayerScript();
+          }}
+          contentMode="desktop"
+          javaScriptEnabled={true}
+          mediaPlaybackRequiresUserAction={false}
+          allowsProtectedMedia={true}
+          autoManageStatusBarEnabled={true}
+          mixedContentMode="always"
+          cacheEnabled={false}
+          // injectedJavaScript={getPlayerScript(data?.accessToken)}
         />
-      ) : (
-        <></>
       )}
     </>
   );

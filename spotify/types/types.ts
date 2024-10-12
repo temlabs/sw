@@ -11,6 +11,7 @@ export interface SpotifyAuthTokens {
   scope: string;
   expiresIn: number;
   refreshToken: string;
+  authCode: string;
 }
 
 export interface AuthTokensResponse {
@@ -25,27 +26,6 @@ export interface AuthTokens {
   scope: string;
   expiresIn: number;
   refreshToken: string;
-}
-
-export interface SpotifyProfile {
-  country: string;
-  display_name: string;
-  email: string;
-  explicit_content: { filter_enabled: boolean; filter_locked: boolean };
-  external_urls: { spotify: string };
-  followers: { href: string; total: number };
-  href: string;
-  id: string;
-  images: [
-    {
-      url: string;
-      height: 300;
-      width: 300;
-    },
-  ];
-  product: 'premium' | 'free' | 'open';
-  type: string;
-  uri: string;
 }
 
 export interface SpotifyError {

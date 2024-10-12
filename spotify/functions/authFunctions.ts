@@ -1,6 +1,8 @@
+import { queryClient } from '@/cache/config';
 import { CLIENT_ID, REDIRECT_URI, SCOPE } from './../config';
 import { SpotifyAuthTokens } from './../types/types';
 import { makeRequest } from '@/api/apiUtils';
+import { spotifyQueryKeys } from '../spotifyQueryKeys';
 
 export const constructSpotifyLoginUri = (): string => {
   const queryObject = {
@@ -11,6 +13,7 @@ export const constructSpotifyLoginUri = (): string => {
   };
   const queryParams = new URLSearchParams(queryObject);
   const queryString = queryParams.toString();
+
   return 'https://accounts.spotify.com/authorize?' + queryString;
 };
 
@@ -20,7 +23,9 @@ export const extractAuthCodeFromUrl = (query: string): string | null => {
   return match ? match[1] : null;
 };
 
-export const fetchSpotifyAuthorizationTokens = async (authCode: string) => {
+export const fetchSpotifyAuthorizationTokens = async (
+  authCode: string,
+): Promise<SpotifyAuthTokens> => {
   try {
     const resJson = await makeRequest<SpotifyAuthTokens>(
       'POST',
@@ -30,7 +35,16 @@ export const fetchSpotifyAuthorizationTokens = async (authCode: string) => {
         isAuthenticated: true,
       },
     );
-    return resJson;
+
+    const authTokens = {
+      ...resJson,
+      expiresIn: resJson.expiresIn * 1000,
+      authCode,
+    };
+    queryClient.setQueryDefaults(spotifyQueryKeys.tokens(authCode), {
+      staleTime: authTokens.expiresIn - 60 * 1000,
+    });
+    return authTokens;
   } catch (error) {
     console.debug(error);
     throw error;

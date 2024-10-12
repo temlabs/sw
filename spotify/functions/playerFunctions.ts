@@ -6,6 +6,7 @@ export const transferPlaybackToDevice = async (
   deviceId: string,
   accessToken: string,
 ): Promise<void> => {
+  console.log('transferring playback');
   const body = { device_ids: [deviceId], play: false };
   const res = await fetch('https://api.spotify.com/v1/me/player', {
     method: 'PUT',
@@ -15,11 +16,14 @@ export const transferPlaybackToDevice = async (
       'Content-Type': 'application/json',
     },
   });
-  if (res.status === 202) {
+  const resJson = await res.json();
+  console.log('transfer playback res: ', resJson);
+  if (res.status === 204) {
+    console.log('playback is transfered');
     return;
   }
-  const resJson = await res.json();
-  await getError(resJson);
+
+  getError(resJson);
 };
 
 export const playTrack = async (
@@ -29,7 +33,7 @@ export const playTrack = async (
 ): Promise<void> => {
   const body = {
     uris: options?.trackUris,
-    position_ms: options?.startFrom ?? 0,
+    // position_ms: options?.startFrom ?? 0,
   };
 
   const res = await fetch(
@@ -46,14 +50,14 @@ export const playTrack = async (
       },
     },
   );
-
   if (res.status === 202) {
     return;
   }
 
-  const resJson = await res.json();
+  // console.debug('play res source: ', res);
+  // const resJson = await res.json();
 
-  await getError(resJson);
+  // await getError(resJson);
 };
 
 export const pauseTrack = async (

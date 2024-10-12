@@ -61,3 +61,22 @@ export const recentlyPlayedTracksResponseToSpotfyTrackList = (
 ): SpotifyTrack[] => {
   return response.items.map(item => item.track);
 };
+
+export const throwSpotifyError = (
+  errorResponse: Object,
+  callbackName?: string,
+) => {
+  if ('error' in errorResponse) {
+    const errorObject = errorResponse.error;
+    if (
+      !!errorObject &&
+      typeof errorObject === 'object' &&
+      'status' in errorObject &&
+      'message' in errorObject
+    ) {
+      const message = (errorObject.message as string) ?? '';
+      const e = new Error(message);
+      e.name = callbackName ?? 'Spotify Error';
+    }
+  }
+};

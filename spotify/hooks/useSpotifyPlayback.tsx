@@ -7,17 +7,18 @@ import { isOptimisticShortPost } from '@/posts/functions';
 
 export function useSpotifyPlayback() {
   const authCode = useGlobalStore(state => state.authCode);
-  const { data } = useSpotifyTokensQuery(authCode, {
-    queryKey: spotifyQueryKeys.tokens,
+  const { data } = useSpotifyTokensQuery({
+    queryKey: spotifyQueryKeys.tokens(authCode),
   });
   const accessToken = data?.accessToken;
   const deviceId = useGlobalStore(state => state.deviceId);
   const setIntent = useGlobalStore(state => state.setIntent);
   const currentlyPlaying = useGlobalStore(state => state.currentlyPlaying);
+  // console.debug('currentlyPlaying usp', { currentlyPlaying });
 
   const play = async (
     post: ShortPost | OptimisticShortPost,
-    starTimestamp: number = 0,
+    startTimestamp: number = 0,
   ) => {
     try {
       if (!accessToken) {
@@ -31,11 +32,12 @@ export function useSpotifyPlayback() {
         intent: 'PLAY',
         intentStartTime: Date.now(),
       });
-
-      await playTrack(accessToken, deviceId, {
-        trackUris: [post.spotifyId],
-        startFrom: starTimestamp,
+      // console.log('attempting to play: ', [post.spotifyId], startTimestamp);
+      const res = await playTrack(accessToken, deviceId, {
+        trackUris: [`spotify:track:${post.spotifyId}`],
+        startFrom: startTimestamp,
       });
+      console.log('play res: ', res);
     } catch (error) {
       console.error(error);
       // consider marking the intent as unfulfilled?
