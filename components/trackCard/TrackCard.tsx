@@ -25,9 +25,10 @@ import { TrackPlayhead } from './TrackPlayhead';
 import { useSpotifyPlayback } from '@/spotify/hooks/useSpotifyPlayback';
 
 interface Props extends Omit<Track, 'id'> {
-  postId: ShortPost['id'];
+  postId?: ShortPost['id'];
   isPlaying?: boolean;
-  onPress: () => Promise<void> | void;
+  onPress?: () => Promise<void> | void;
+  hidePlayhead?: boolean;
 }
 
 export function TrackCard(props: Props) {
@@ -80,7 +81,7 @@ export function TrackCard(props: Props) {
       >
         <View style={containerStyle}>
           <TrackCardBackground url={props.artwork} />
-          <TrackPlayhead />
+          {props.hidePlayhead !== true ? <TrackPlayhead /> : <></>}
           <View style={innerContainerStyle}>
             <View style={imageColumnStyle}>
               <Image
@@ -110,6 +111,7 @@ const containerStyle: ViewStyle = {
   flexGrow: 1,
   overflow: 'hidden',
   position: 'relative',
+  maxWidth: '100%',
 };
 
 const innerContainerStyle: ViewStyle = {
@@ -117,6 +119,8 @@ const innerContainerStyle: ViewStyle = {
   flexDirection: 'row',
   justifyContent: 'space-between',
   gap: spacing.m,
+  width: '100%',
+  flexShrink: 1,
 };
 
 const imageColumnStyle: ViewStyle = {};

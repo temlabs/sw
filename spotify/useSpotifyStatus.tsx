@@ -9,6 +9,7 @@ import { useSpotifyTokensQuery } from './hooks/useSpotifyTokensQuery';
 
 export function useSpotifyStatus() {
   const authCode = useGlobalStore(state => state.authCode);
+  const playerState = useGlobalStore(state => state.playerState);
   const { data, error, isError, isFetched, isFetching } = useSpotifyTokensQuery(
     {
       enabled: !!authCode,
@@ -16,7 +17,6 @@ export function useSpotifyStatus() {
     },
   );
   const deviceId = useGlobalStore(state => state.deviceId);
-  console.debug({ deviceId });
 
   const openSpotifyWebsite = () => {
     router.navigate('/spotify');
@@ -41,8 +41,13 @@ export function useSpotifyStatus() {
     };
   } else if (!!data?.accessToken && !deviceId) {
     return { text: 'Looking good...', onPress: openLogoutScreen };
-  } else if (!!deviceId) {
+  } else if (!!deviceId && playerState === 'CONNECTED') {
     return { text: 'All good! Happy exploring', onPress: openLogoutScreen };
+  } else if (playerState === 'DISCONNECTED' && data?.accessToken) {
+    return {
+      text: 'We seem to have lost connection',
+      onPress: openLogoutScreen,
+    };
   } else {
     return {
       text: 'Tap here to sign in to Spotify and start listening',

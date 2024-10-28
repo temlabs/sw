@@ -15,6 +15,7 @@ import {
 import { SpotifyLogo } from './icons/SpotifyLogo';
 import { typography } from '@/theme/typography';
 import { SpotifyPlayer } from './SpotifyPlayer';
+import { useSpotifyLoginUriQuery } from '@/spotify/hooks/useSpotifyLoginUriQuery';
 
 interface Props {
   text: string;
@@ -22,6 +23,10 @@ interface Props {
 }
 
 export function SpotifyPill({ text, onPress }: Props) {
+  const { data: loginUriAndState } = useSpotifyLoginUriQuery({
+    refetchOnMount: true,
+  });
+
   useLayoutEffect(() => {
     LayoutAnimation.configureNext({
       create: { type: 'spring', springDamping: 5, duration: 150 },
@@ -29,6 +34,9 @@ export function SpotifyPill({ text, onPress }: Props) {
       duration: 150,
     });
   }, [text, onPress]);
+  if (!loginUriAndState) return null;
+  const { uri } = loginUriAndState;
+  if (!uri) return null;
 
   const disabled = !onPress;
 

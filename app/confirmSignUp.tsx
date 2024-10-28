@@ -1,21 +1,21 @@
-import { confirmSignUp } from "@/auth/functions";
-import { ConfirmSignUpErrorCode } from "@/auth/types";
-import { FadeView } from "@/components/animated/FadeView";
-import { PrimaryButton } from "@/components/buttons/PrimaryButton";
-import { SecondaryButton } from "@/components/buttons/SecondaryButton";
-import { TextLinkButton } from "@/components/buttons/TextLinkButton";
-import { TextInput } from "@/components/textInputs/TextInput";
+import { confirmSignUp } from '@/auth/functions';
+import { ConfirmSignUpErrorCode } from '@/auth/types';
+import { FadeView } from '@/components/animated/FadeView';
+import { PrimaryButton } from '@/components/buttons/PrimaryButton';
+import { SecondaryButton } from '@/components/buttons/SecondaryButton';
+import { TextLinkButton } from '@/components/buttons/TextLinkButton';
+import { TextInput } from '@/components/textInputs/TextInput';
 import {
   validateEmail,
   validatePassword,
   validateUsername,
-} from "@/forms/functions";
-import { colors } from "@/theme/colors";
-import { spacing } from "@/theme/spacing";
-import { typography } from "@/theme/typography";
-import { resendSignUpCode, signIn } from "aws-amplify/auth";
-import { Link, router, useLocalSearchParams } from "expo-router";
-import { useEffect, useMemo, useState } from "react";
+} from '@/forms/functions';
+import { colors } from '@/theme/colors';
+import { spacing } from '@/theme/spacing';
+import { typography } from '@/theme/typography';
+import { resendSignUpCode, signIn } from 'aws-amplify/auth';
+import { Link, router, useLocalSearchParams } from 'expo-router';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   BackHandler,
@@ -26,7 +26,7 @@ import {
   TouchableWithoutFeedback,
   View,
   ViewStyle,
-} from "react-native";
+} from 'react-native';
 import Animated, {
   FadeIn,
   FadeOut,
@@ -34,36 +34,35 @@ import Animated, {
   useAnimatedReaction,
   useSharedValue,
   withTiming,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 import {
   SafeAreaView,
   useSafeAreaInsets,
-} from "react-native-safe-area-context";
+} from 'react-native-safe-area-context';
 
 const validationFunctions = [validateEmail, validateUsername, validatePassword];
 
 export default function ConfirmSignUp() {
   const [isLoading, setIsLoading] = useState(false);
-  const { email = "", password = "", username = "" } = useLocalSearchParams();
-  const [confirmationCode, setconfirmationCode] = useState<string>("");
-  const [confirmError, setConfirmError] = useState("");
+  const { email = '', password = '', username = '' } = useLocalSearchParams();
+  const [confirmationCode, setconfirmationCode] = useState<string>('');
+  const [confirmError, setConfirmError] = useState('');
   const sharedOpacity = useSharedValue(0);
 
   const resendCode = async () => {
-    if (!(username && typeof username === "string")) {
+    if (!(username && typeof username === 'string')) {
       return;
     }
     const res = await resendSignUpCode({ username });
-    console.debug("resend code res: ", res);
   };
 
   const confirmAndLogin = async () => {
     if (
       !(
         username &&
-        typeof username === "string" &&
+        typeof username === 'string' &&
         password &&
-        typeof password === "string"
+        typeof password === 'string'
       )
     ) {
       return;
@@ -78,27 +77,26 @@ export default function ConfirmSignUp() {
         });
       } catch (error) {
         if (error instanceof Error) {
-          console.debug("error is error", error);
           const errorCode = error.name as ConfirmSignUpErrorCode;
-          if (errorCode === "CodeExpired") {
+          if (errorCode === 'CodeExpired') {
             setConfirmError(
-              "This code has expired. We're sending you another..."
+              "This code has expired. We're sending you another...",
             );
             resendCode();
-          } else if (errorCode === "FailureOverload") {
+          } else if (errorCode === 'FailureOverload') {
             setConfirmError(
-              "You've tried too many times, come back later to try again."
+              "You've tried too many times, come back later to try again.",
             );
-          } else if (errorCode === "IncorrectCode") {
-            setConfirmError("Wrong code. Try again?");
+          } else if (errorCode === 'IncorrectCode') {
+            setConfirmError('Wrong code. Try again?');
           } else if (
-            errorCode === "UserNonExistent" ||
-            errorCode === "Error" ||
-            errorCode === "LimitExceeded" ||
-            errorCode === "RequestsOverload"
+            errorCode === 'UserNonExistent' ||
+            errorCode === 'Error' ||
+            errorCode === 'LimitExceeded' ||
+            errorCode === 'RequestsOverload'
           ) {
             setConfirmError(
-              "Something has gone wrong here. We're working on it."
+              "Something has gone wrong here. We're working on it.",
             );
           }
         }
@@ -108,11 +106,11 @@ export default function ConfirmSignUp() {
       const signInRes = await signIn({
         username,
         password,
-        options: { authFlowType: "USER_SRP_AUTH" },
+        options: { authFlowType: 'USER_SRP_AUTH' },
       });
     } catch (error) {
       setIsLoading(false);
-      console.log("error", error);
+      console.log('error', error);
     } finally {
       setIsLoading(false);
     }
@@ -123,7 +121,7 @@ export default function ConfirmSignUp() {
     () => {
       sharedOpacity.value = withTiming(1);
     },
-    []
+    [],
   );
 
   const goBack = () => {
@@ -133,7 +131,7 @@ export default function ConfirmSignUp() {
 
   const headerText = email
     ? `We sent a code to ${email}`
-    : "We sent you a confirmation code to your email address";
+    : 'We sent you a confirmation code to your email address';
 
   const confirmDisabled = !confirmationCode || confirmationCode.length !== 6;
 
@@ -156,14 +154,14 @@ export default function ConfirmSignUp() {
             <View
               style={{
                 flexGrow: 1,
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
               <Text style={titleStyle}>{headerText}</Text>
               <TextLinkButton
                 onPress={resendCode}
-                text={"Need another code? Tap here."}
+                text={'Need another code? Tap here.'}
               />
             </View>
             <View style={innerInputContainerStyle}>
@@ -173,9 +171,9 @@ export default function ConfirmSignUp() {
                 textContentType="oneTimeCode"
                 keyboardType="number-pad"
                 autoCapitalize="none"
-                onChangeText={(t) => {
+                onChangeText={t => {
                   setconfirmationCode(t);
-                  setConfirmError("");
+                  setConfirmError('');
                 }}
                 errorText={confirmError}
                 returnKeyType="go"
@@ -205,39 +203,39 @@ const safeAreaStyle: ViewStyle = {
   flex: 1,
   paddingHorizontal: spacing.m,
   // paddingBottom: spacing.l,
-  justifyContent: "flex-end",
+  justifyContent: 'flex-end',
   gap: spacing.xl,
 };
 
 const buttonContainerStyle: ViewStyle = {
-  flexDirection: "column",
+  flexDirection: 'column',
   gap: spacing.m,
 };
 
 const inputContainerStyle: ViewStyle = {
   flexGrow: 1,
-  justifyContent: "flex-end",
+  justifyContent: 'flex-end',
   zIndex: 1,
 };
 
 const leadingIconStyle: TextStyle = {
   ...typography.medium,
   color: colors.text.primary,
-  alignSelf: "center",
+  alignSelf: 'center',
   paddingBottom: 4, // half border radius - spacing.m
   paddingLeft: 20, // half border radius
   paddingRight: 0,
 };
 
 const innerInputContainerStyle: ViewStyle = {
-  height: "50%",
-  justifyContent: "flex-start",
-  overflow: "hidden",
+  height: '50%',
+  justifyContent: 'flex-start',
+  overflow: 'hidden',
 };
 
 const titleStyle: TextStyle = {
   ...typography.h3,
   color: colors.text.primary,
-  alignSelf: "center",
+  alignSelf: 'center',
   opacity: 0.5,
 };

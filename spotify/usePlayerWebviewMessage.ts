@@ -30,6 +30,9 @@ export function usePlayerWebViewMessage() {
       accessToken && (await transferPlaybackToDevice(deviceId, accessToken));
     } catch (error) {}
   };
+  const onDeviceOffline = async (message: string) => {
+    setSpotifyDeviceId('');
+  };
 
   const onPlaybackStateChangeMessage = async (message: string) => {
     try {
@@ -61,5 +64,5 @@ export function usePlayerWebViewMessage() {
     }
   };
 
-  return { onDeviceIdMessage, onPlaybackStateChangeMessage };
+  return { onDeviceIdMessage, onPlaybackStateChangeMessage, onDeviceOffline };
 }

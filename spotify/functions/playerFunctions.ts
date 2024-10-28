@@ -6,8 +6,8 @@ export const transferPlaybackToDevice = async (
   deviceId: string,
   accessToken: string,
 ): Promise<void> => {
-  console.log('transferring playback');
-  const body = { device_ids: [deviceId], play: false };
+  console.log('transferring playback with', { accessToken, deviceId });
+  const body = { device_ids: [deviceId], play: true };
   const res = await fetch('https://api.spotify.com/v1/me/player', {
     method: 'PUT',
     body: JSON.stringify(body),
@@ -33,7 +33,7 @@ export const playTrack = async (
 ): Promise<void> => {
   const body = {
     uris: options?.trackUris,
-    // position_ms: options?.startFrom ?? 0,
+    position_ms: options?.startFrom ?? 0,
   };
 
   const res = await fetch(
@@ -50,6 +50,7 @@ export const playTrack = async (
       },
     },
   );
+  console.debug('play res status: ', res.status);
   if (res.status === 202) {
     return;
   }

@@ -2,7 +2,7 @@ import { colors } from '@/theme/colors';
 import { spacing } from '@/theme/spacing';
 import { typography } from '@/theme/typography';
 import { Track } from '@/tracks/types';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
   TextStyle,
   View,
@@ -13,6 +13,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ModalHandle } from '../modal/ModalHandle';
 import { Image, ImageStyle } from 'expo-image';
+import { TrackCard } from './TrackCard';
 
 interface Props extends Omit<Track, 'id'> {}
 
@@ -23,7 +24,7 @@ export function TrackCardOptions(track: Props) {
       <ModalHandle />
 
       <View style={headerContainerStyle}>
-        <View style={titleContainerStyle}>
+        {/* <View style={titleContainerStyle}>
           <Text style={trackName}>{track.name}</Text>
           <Text style={trackArtist}>{track.artist}</Text>
         </View>
@@ -31,7 +32,8 @@ export function TrackCardOptions(track: Props) {
           style={imageStyle}
           contentFit="cover"
           source={{ uri: track.artwork }}
-        />
+        /> */}
+        <TrackCard {...track} hidePlayhead={true} onPress={undefined} />
       </View>
       <View style={buttonsContainer}>
         <TouchableOpacity style={buttonWithBorder}>
@@ -73,7 +75,8 @@ const headerContainerStyle: ViewStyle = {
   flexDirection: 'row',
   justifyContent: 'space-between',
   paddingHorizontal: spacing.m,
-  alignItems: 'flex-start',
+  paddingVertical: spacing.s,
+  alignItems: 'center',
 };
 
 const titleContainerStyle: ViewStyle = {

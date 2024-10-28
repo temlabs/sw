@@ -14,6 +14,12 @@ export interface SpotifyAuthTokens {
   authCode: string;
 }
 
+export interface SpotifyLoginUri {
+  uri: string;
+  state: string;
+  redirectUri: string;
+}
+
 export interface AuthTokensResponse {
   access_token: string;
   token_type: string;

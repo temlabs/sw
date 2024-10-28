@@ -118,7 +118,7 @@ const contentContainerStyle: ViewStyle = {
   gap: spacing.m,
   justifyContent: 'center',
   maxWidth: '100%',
-  overflow: 'hidden',
+  // overflow: 'hidden',
 };
 
 const bottomBarContainerStyle: ViewStyle = {

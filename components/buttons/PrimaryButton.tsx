@@ -1,20 +1,21 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect } from 'react';
 import {
   View,
   Text,
   ViewStyle,
   TouchableHighlight,
   ActivityIndicator,
-} from "react-native";
-import { ButtonProps } from "./types";
-import { typography } from "@/theme/typography";
-import { colors } from "@/theme/colors";
-import { spacing } from "@/theme/spacing";
-import { BlurView } from "expo-blur";
+  TouchableHighlightProps,
+} from 'react-native';
+import { ButtonProps } from './types';
+import { typography } from '@/theme/typography';
+import { colors } from '@/theme/colors';
+import { spacing } from '@/theme/spacing';
+import { BlurView } from 'expo-blur';
 
 export function PrimaryButton(
   props: ButtonProps,
-  ref: React.ForwardedRef<TouchableHighlight>
+  ref: React.ForwardedRef<TouchableHighlightProps>,
 ) {
   return (
     <TouchableHighlight
@@ -25,9 +26,9 @@ export function PrimaryButton(
     >
       <View style={container}>
         {props.isLoading ? (
-          <ActivityIndicator color={"black"} />
+          <ActivityIndicator color={'black'} />
         ) : (
-          <Text style={{ ...typography.h4, color: "black" }}>{props.text}</Text>
+          <Text style={{ ...typography.h4, color: 'black' }}>{props.text}</Text>
         )}
       </View>
     </TouchableHighlight>
@@ -37,22 +38,22 @@ export function PrimaryButton(
 const outerContainer: ViewStyle = {
   backgroundColor: colors.button.primary,
   borderRadius: 48,
-  justifyContent: "center",
-  alignItems: "center",
-  overflow: "hidden",
+  justifyContent: 'center',
+  alignItems: 'center',
+  overflow: 'hidden',
   height: (typography.h4.fontSize ?? 20) * 3.2,
 };
 
 const container: ViewStyle = {
-  justifyContent: "center",
-  alignItems: "center",
-  overflow: "hidden",
+  justifyContent: 'center',
+  alignItems: 'center',
+  overflow: 'hidden',
   paddingHorizontal: spacing.m,
   paddingVertical: spacing.m,
 };
 
 const svgContainer: ViewStyle = {
-  position: "absolute",
+  position: 'absolute',
   top: 0,
   left: 0,
   right: 0,
@@ -61,10 +62,10 @@ const svgContainer: ViewStyle = {
 };
 
 const textContainer: ViewStyle = {
-  position: "relative",
+  position: 'relative',
   zIndex: 1,
 
-  width: "100%",
-  justifyContent: "center",
-  alignItems: "center",
+  width: '100%',
+  justifyContent: 'center',
+  alignItems: 'center',
 };

@@ -32,12 +32,11 @@ export function useSpotifyPlayback() {
         intent: 'PLAY',
         intentStartTime: Date.now(),
       });
-      // console.log('attempting to play: ', [post.spotifyId], startTimestamp);
+      console.log('attempting to play: ', [post.spotifyId], startTimestamp);
       const res = await playTrack(accessToken, deviceId, {
         trackUris: [`spotify:track:${post.spotifyId}`],
         startFrom: startTimestamp,
       });
-      console.log('play res: ', res);
     } catch (error) {
       console.error(error);
       // consider marking the intent as unfulfilled?

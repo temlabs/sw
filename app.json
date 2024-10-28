@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "sheerwonder-expo",
-    "slug": "sheerwonder-expo",
+    "slug": "sheerwonder",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -59,6 +59,12 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4d52ed79-b7ec-408c-a5d2-b132177e09ef"
+      }
+    },
+    "owner": "temlabs"
   }
 }

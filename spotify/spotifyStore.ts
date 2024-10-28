@@ -18,6 +18,8 @@ type CurrentlyPlayingOptions =
     }
   | undefined;
 
+export type PlayerState = 'DISCONNECTED' | 'CONNECTED' | 'READY';
+
 export interface SpotifySlice {
   authCode: string;
   setAuthCode: (authCode: string) => void;
@@ -27,6 +29,8 @@ export interface SpotifySlice {
   setCurrentlyPlaying: (opts: CurrentlyPlayingOptions) => void;
   setIntent: (intent: Intent) => void;
   intent: Intent;
+  playerState: PlayerState;
+  setPlayerState: (state: PlayerState) => void;
 }
 
 export const createSpotifySlice: StateCreator<SpotifySlice> = set => ({
@@ -39,4 +43,6 @@ export const createSpotifySlice: StateCreator<SpotifySlice> = set => ({
     set(state => ({ ...state, ...newCurrentlyPlaying })),
   setIntent: newIntent => set(state => ({ ...state, intent: newIntent })),
   intent: undefined,
+  playerState: 'DISCONNECTED',
+  setPlayerState: playerState => set(state => ({ ...state, playerState })),
 });

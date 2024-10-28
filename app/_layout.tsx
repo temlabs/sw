@@ -7,7 +7,7 @@ import React, { useEffect } from 'react';
 import { StatusBar, View, ViewStyle } from 'react-native';
 import { enableFreeze } from 'react-native-screens';
 import { Amplify } from 'aws-amplify';
-import amplifyconfig from '@/auth/amplify/amplifyConfiguration.json';
+import amplifyconfig from '@/auth/amplify/amplifyConfiguration';
 import { useAuthStatus } from '@/auth/useAuthStatus';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/cache/config';
@@ -52,9 +52,9 @@ export default function RootLayout() {
               backgroundColor: colors.background.primary,
             }}
           >
-            <View style={welcomeBackgroundContainerStyle}>
+            {/* <View style={welcomeBackgroundContainerStyle}>
               <WelcomeBackground />
-            </View>
+            </View> */}
             <StatusBar barStyle={'light-content'} />
             <Stack
               screenOptions={{

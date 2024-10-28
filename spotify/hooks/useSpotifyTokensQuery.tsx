@@ -9,6 +9,7 @@ import { SpotifyAuthTokens } from '../types/types';
 import { useEffect } from 'react';
 import { makeRequest } from '@/api/apiUtils';
 import { queryClient } from '@/cache/config';
+import { useGlobalStore } from '@/store/store';
 
 export function useSpotifyTokensQuery(
   options: Omit<
@@ -41,15 +42,23 @@ export function useSpotifyTokensQuery(
     }
     const refreshToken = query.data?.refreshToken;
     try {
-      const tokens = refreshToken && refreshAuthTokens(refreshToken);
-      console.debug('successfully refreshed tokens: ', tokens);
-      queryClient.setQueryData(
-        spotifyQueryKeys.tokens(options.queryKey[options.queryKey.length - 1]),
-        tokens,
-      );
+      const tokens =
+        refreshToken &&
+        refreshAuthTokens(refreshToken).then(toks => {
+          console.debug('successfully refreshed tokens: ', toks);
+
+          toks &&
+            queryClient.setQueryData(
+              spotifyQueryKeys.tokens(
+                options.queryKey[options.queryKey.length - 1],
+              ),
+              toks,
+            );
+        });
     } catch (error) {
       console.error('error refreshing token: ', error);
     }
   }, [query.isStale]);
+
   return query;
 }

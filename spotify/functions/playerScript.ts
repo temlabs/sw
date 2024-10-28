@@ -71,8 +71,8 @@ console.log('webview access token','${accessToken}');
     console.error('Failed to initialize', message);
   });
 
-  player.addListener('authentication_error', ({ message }) => {
-    console.error('Failed to authenticate', message);
+  player.addListener('authentication_error', ({ message,...error }) => {
+    console.error('Failed to authenticate', message, error);
   });
 
   player.addListener('account_error', ({ message }) => {
@@ -90,18 +90,20 @@ console.log('webview access token','${accessToken}');
       });
 
   player.connect().then(success => {
+
     if (success) {
-      console.log('The Web Playback SDK successfully connected to Spotify!');
+      window.ReactNativeWebView.postMessage('connectSuccess');
+      console.log('connectSuccess The Web Playback SDK successfully connected to Spotify!');
     } else {
-      console.error('The Web Playback SDK failed to connect to Spotify');
+         window.ReactNativeWebView.postMessage('connectFail');
+      console.error('connectFail The Web Playback SDK failed to connect to Spotify');
     }
   }).catch(error => {
-    console.error('Error connecting to Spotify:', error);
+    console.error('Error connecting to Spotify:', JSON.stringify(message));
   });
 
   window.spotifyPlayer = player;
 }
 
 console.log('Player script finished');
-true;
 `;

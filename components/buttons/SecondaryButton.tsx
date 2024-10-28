@@ -1,19 +1,20 @@
-import React from "react";
+import React from 'react';
 import {
   TouchableOpacity,
   View,
   Text,
   ViewStyle,
   TextStyle,
-} from "react-native";
-import { ButtonProps } from "./types";
-import { typography } from "@/theme/typography";
-import { spacing } from "@/theme/spacing";
-import { colors } from "@/theme/colors";
+  TouchableOpacityProps,
+} from 'react-native';
+import { ButtonProps } from './types';
+import { typography } from '@/theme/typography';
+import { spacing } from '@/theme/spacing';
+import { colors } from '@/theme/colors';
 
 export function SecondaryButton(
   props: ButtonProps,
-  ref: React.ForwardedRef<TouchableOpacity>
+  ref: React.ForwardedRef<TouchableOpacityProps>,
 ) {
   return (
     <TouchableOpacity {...props}>
@@ -25,8 +26,8 @@ export function SecondaryButton(
 }
 const container: ViewStyle = {
   padding: spacing.m,
-  justifyContent: "center",
-  alignItems: "center",
+  justifyContent: 'center',
+  alignItems: 'center',
 };
 
 const textStyle: TextStyle = {

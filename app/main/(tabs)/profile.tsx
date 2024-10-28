@@ -1,3 +1,4 @@
+import { useSpotifyProfileQuery } from '@/spotify/hooks/useSpotifyProfileQuery';
 import { useSpotifyTokensQuery } from '@/spotify/hooks/useSpotifyTokensQuery';
 import { spotifyQueryKeys } from '@/spotify/spotifyQueryKeys';
 import { useGlobalStore } from '@/store/store';
@@ -15,11 +16,10 @@ export default function Tab() {
     enabled: !!authCode,
     queryKey: spotifyQueryKeys.tokens(authCode),
   });
-  const { data: spotifyProfile } = useSpotifyTokensQuery({
+  const { data: spotifyProfile } = useSpotifyProfileQuery({
     enabled: !!tokens?.accessToken,
     queryKey: spotifyQueryKeys.profile(tokens?.accessToken ?? ''),
   });
-  console.debug({ spotifyProfile });
 
   return (
     <View style={styles.container}>
