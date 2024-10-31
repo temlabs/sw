@@ -9,7 +9,6 @@ import { SpotifyAuthTokens } from '../types/types';
 import { useEffect } from 'react';
 import { makeRequest } from '@/api/apiUtils';
 import { queryClient } from '@/cache/config';
-import { useGlobalStore } from '@/store/store';
 
 export function useSpotifyTokensQuery(
   options: Omit<

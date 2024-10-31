@@ -67,7 +67,7 @@ export function SpotifyPlayer() {
           key={3}
           ref={webViewRef}
           source={{
-            uri: 'https://sheerwonder-landing-production.up.railway.app/',
+            uri: 'https://temlabs.github.io/sw/',
           }}
           style={webViewStyle}
           onMessage={handleMessage}
